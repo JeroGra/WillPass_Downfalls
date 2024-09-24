@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">WillPass?</string>
+    <string name="title_activity_main">WillPass?</string>
+    <string name="package_name">com.willpass.app</string>
+    <string name="custom_url_scheme">com.willpass.app</string>
+</resources>

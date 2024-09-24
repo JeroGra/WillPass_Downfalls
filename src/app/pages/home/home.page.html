@@ -1,0 +1,168 @@
+<ion-header >
+  <ion-toolbar>
+    <ion-button *ngIf="!creando_evento && !modificando_evento" id="btn_volver" fill="outline" size="medium" (click)="Login()"><img src="../../../assets/imagenes/arrow-bar-left.svg"></ion-button>
+    <ion-title *ngIf="!creando_evento  && !modificando_evento" style="text-align: center; color: #F87983; font-size: 1.5rem; font-weight: bolder;margin-right: 2rem; margin-top: 0.5rem;">Mis Eventos</ion-title>
+    <ion-title *ngIf="creando_evento || modificando_evento" style="text-align: center; color: #F87983; font-size: 1.5rem; font-weight: bolder;text-align: center; margin-top: 0.5rem;">Mis Eventos</ion-title>
+
+  </ion-toolbar>
+</ion-header>
+
+<div *ngIf="loading" class="custom-spinner">
+  <h1 class="spinnerh1"></h1>
+  <img src="../../../assets/imagenes/icon_rounded.png" alt="Custom Spinner" />
+</div>
+
+<ion-content [fullscreen]="true">
+
+    <div class="container text-center">
+      <div class="row justify-content-md-center row-cosl-1">
+  
+        <!-- Valida que no se este creando un evento-->
+        <div *ngIf="!creando_evento && !modificando_evento">
+  
+          <!-- Card (si hay evento) -->
+           <div *ngIf="eventos.length > 0">
+             <div *ngFor="let evento of eventos"  class="col-md-auto">
+       
+               <ion-card class="card_eventos" >
+                <div (click)="SelecEvento(evento)">
+                  <ion-card-header>
+                    <ion-card-title style="font-weight: bold; font-size: 1.5rem; color: #F87983;"> {{evento.nombre}}</ion-card-title>
+                    <ion-card-subtitle style="font-weight: bold; font-size: medium; color:#f87984bb;">{{evento.fecha}} a las {{evento.hora}}hs</ion-card-subtitle>
+                  </ion-card-header>
+                
+                  <ion-card-content >
+ 
+                    {{timeUntilFutureDate(evento.fecha)}}
+                  </ion-card-content>
+                </div>
+                <ion-button fill="outline" id="btn_editar" (click)="ModificarEventoSelect(evento)"><img width="20" src="../../../assets/imagenes/pen.svg" ></ion-button>
+               </ion-card>
+              
+       
+             </div>
+           </div>
+    
+          <!-- BOTON AGREGAR EVENTO -->
+          <div class="col-md-auto">
+    
+            <ion-button *ngIf="usuario.admin" id="btn_crear_evento" fill="outline" (click)="CrearEvento()"> <img  src="../../../assets/imagenes/plus-lg.svg">   </ion-button>
+    
+          </div>
+  
+        </div>
+  
+        <!-- Si Se crea evento-->
+         <div *ngIf="creando_evento">
+  
+          <div class="col-md-auto" id="col_creacion_evento">
+          
+  
+            <ion-input
+             class="input_evento" 
+             name="nombre" 
+             label="Nombre" 
+             label-placement="floating" 
+             fill="solid" 
+             [minlength]="5"
+             [maxlength]="30"
+             [counter]="true"
+             placeholder="Ingrese nombre del evento"
+             type="name"
+             required="true"
+             [errorText]="error_nombre"
+             [(ngModel)]="nombre_evento"
+             ></ion-input>
+  
+            <ion-input 
+            class="input_evento" 
+            name="fecha" 
+            label="Fecha" 
+            label-placement="floating" 
+            fill="solid" 
+            placeholder="Ingrese fecha"
+            type="date"
+            required="true"
+            [(ngModel)]="fecha_evento"
+            ></ion-input>
+  
+            <ion-input 
+            class="input_evento" 
+            name="hora" 
+            label="Hora" 
+            label-placement="floating" 
+            fill="solid" 
+            placeholder="Ingrese Hora"
+            type="time"
+            required="true"
+            [(ngModel)]="hora_evento"
+            ></ion-input>
+    
+            <br>
+  
+            <ion-button class="btn_evento" fill="outline" style="--border-color:  #A28BF7; --color:#A28BF7;"  (click)="AgregarEvento()" ><img src="../../../assets/imagenes/plus-circle.svg"></ion-button>
+            <ion-button class="btn_evento" fill="outline" style="--border-color:  #ee3444; --color:#ee3444;"  (click)="Volver()"><img src="../../../assets/imagenes/ban.svg"></ion-button>
+    
+          </div>
+  
+         </div>
+
+         <!-- Si se Modifica evento-->
+         <div *ngIf="modificando_evento">
+
+          <div class="col-md-auto" id="col_creacion_evento">
+          
+  
+            <ion-input
+             class="input_evento" 
+             name="nombre" 
+             label="Nombre" 
+             label-placement="floating" 
+             fill="solid" 
+             [minlength]="5"
+             [maxlength]="30"
+             [counter]="true"
+             placeholder="Ingrese nombre del evento"
+             type="name"
+             required="true"
+             [errorText]="error_nombre"
+             [(ngModel)]="nombre_evento"
+             ></ion-input>
+  
+            <ion-input 
+            class="input_evento" 
+            name="fecha" 
+            label="Fecha" 
+            label-placement="floating" 
+            fill="solid" 
+            placeholder="Ingrese fecha"
+            type="date"
+            required="true"
+            [(ngModel)]="fecha_evento"
+            ></ion-input>
+  
+            <ion-input 
+            class="input_evento" 
+            name="hora" 
+            label="Hora" 
+            label-placement="floating" 
+            fill="solid" 
+            placeholder="Ingrese Hora"
+            type="time"
+            required="true"
+            [(ngModel)]="hora_evento"
+            ></ion-input>
+    
+            <br>
+  
+            <ion-button class="btn_evento" fill="outline" style="--border-color:  #A28BF7; --color:#A28BF7;"  (click)="ModificarEvento()" ><img width="25" src="../../../assets/imagenes/pen.svg"></ion-button>
+            <ion-button class="btn_evento" fill="outline" style="--border-color:  #ee3444; --color:#ee3444;"  (click)="Volver()"><img src="../../../assets/imagenes/ban.svg"></ion-button>
+    
+          </div>
+
+         </div>
+          
+      </div>
+    </div>
+</ion-content>
+

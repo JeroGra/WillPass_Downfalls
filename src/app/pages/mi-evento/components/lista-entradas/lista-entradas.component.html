@@ -1,0 +1,68 @@
+<ion-list [inset]="true">
+  <ion-item style="color: #F87983;">
+    <label style="width: 4rem; margin-left: 0.1rem; font-weight: bold;">
+      Dni
+    </label>
+    <label style="width: 6rem; margin-left: 0.5rem; font-weight: bold;">
+      Nombre
+    </label>
+    <label style="width: 6rem; margin-left: 0.5rem; font-weight: bold;">
+      Entrada
+    </label>
+    <label style="width: 4rem; margin-left: 0.5rem; font-weight: bold;">
+      Asistió
+    </label>
+  </ion-item>
+    <ion-item *ngFor="let entrada of entradas" (click)="setOpen(true,entrada)">
+      <label class="col-info" style="width: 4rem; margin-left: 0.1rem;">
+        {{entrada.dni}}
+      </label>
+      <label class="col-info" style="width: 6rem; margin-left: 0.5rem;">
+        {{entrada.nombre_cliente}}
+      </label>
+      <label class="col-info" style="width: 6rem; margin-left: 0.5rem;">
+        {{entrada.tipo_plantilla}}
+      </label>
+      <label style="width: 4rem; margin-left: 0.5rem;" >
+        <img *ngIf="entrada.asistio_cliente" width="20" style="background-color: #48cc36; padding: 0.1rem; float: right;"  src="../../../../../assets/imagenes/check2.svg">
+        <img *ngIf="!entrada.asistio_cliente" width="20" style="background-color: #ee3444; padding: 0.1rem; float: right;" src="../../../../../assets/imagenes/x-mark.png">
+      </label>
+    </ion-item>
+</ion-list>
+<ion-modal [isOpen]="isModalOpen">
+  <ng-template>
+    <ion-header>
+      <ion-toolbar>
+        <ion-buttons slot="end">
+          <ion-button style="font-weight: bold; font-size: large;color: #e9e9e9;" (click)="setOpen(false)">Cerrar</ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content class="ion-padding">
+      <ion-card id="card-cliente">
+        <ion-card-header>
+          <ion-card-title style="color: #F87983;font-weight: bolder;font-size: 1.6rem;">{{entrada_select.nombre_cliente}} {{entrada_select.apellido_cliente }} 
+            <img *ngIf="entrada_select.asistio_cliente" width="20" style="background-color: #48cc36; padding: 0.1rem"  src="../../../../../assets/imagenes/check2.svg">
+            <img *ngIf="!entrada_select.asistio_cliente" width="20" style="background-color: #ee3444; padding: 0.1rem" src="../../../../../assets/imagenes/x-mark.png">
+          </ion-card-title>
+          <ion-card-subtitle style="color: #e7717b;font-weight: bold;font-size: 1.2rem;"> DNI: {{entrada_select.dni}}</ion-card-subtitle>
+          <ion-card-subtitle style="color: #A28BF7;font-weight: bold;font-size: 1rem;"> Entrada: {{entrada_select.tipo_plantilla}}</ion-card-subtitle>
+          <ion-card-subtitle style="color: #A28BF7;font-weight: bold;font-size: 1rem;"> Valor: ${{entrada_select.valor}}</ion-card-subtitle>
+        </ion-card-header>
+        <ion-card-content>
+          <ion-button *ngIf="usuario.admin"  id="btn_eliminar" fill="outline" size="medium" ><img width="30" src="../../../../../assets/imagenes/trash.svg"></ion-button>   
+        </ion-card-content>
+      </ion-card>
+      <ion-alert
+        trigger="btn_eliminar"
+        header="Eliminar Cliente de la lista?"
+        class="custom-alert"
+        [buttons]="alertButtons"
+        (didDismiss)="setResult($event)"
+      ></ion-alert>
+    </ion-content>
+  </ng-template>
+</ion-modal>
+
+
+

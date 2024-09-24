@@ -1,0 +1,72 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title style="text-align: center; color: #F87983; font-size: 2rem; font-weight: bolder;">WillPass?</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<div *ngIf="loading" class="custom-spinner">
+  <h1 class="spinnerh1"></h1>
+  <img src="../../../assets/imagenes/icon_rounded.png" alt="Custom Spinner" />
+</div>
+
+<ion-content [fullscreen]="true">
+  <div class="container text-center">
+    <div class="row justify-content-md-center row-cosl-1">
+      
+      <div class="col-md-auto" id="col_creacion_evento">
+
+        <ion-card class="card_login" >
+    
+          <ion-card-header>
+            
+          <ion-card-title>
+            <img width="200" src="../../../assets/imagenes/icon_rounded.png">
+          </ion-card-title>
+          
+          </ion-card-header>
+        
+          <ion-card-content>
+            <ion-input
+            style="margin-top: 1rem;"
+            class="input_entrada"
+            name="nombre" 
+            label="Nombre" 
+            label-placement="floating" 
+            fill="solid" 
+            placeholder="Ingrese Nombre"
+            inputmode="text"
+            [(ngModel)]="nombre"
+            ></ion-input>
+      
+            <ion-input
+            style="margin-top: 2rem;"
+            class="input_entrada"
+            name="clave" 
+            label="Clave " 
+            label-placement="floating" 
+            fill="solid" 
+            placeholder="Ingrese Clave"
+            type="password"
+            [(ngModel)]="clave"
+            ></ion-input>
+      
+          <br>
+      
+          <ion-button class="btn_form_plantilla" fill="outline"  (click)="Login()" > Ingresar </ion-button>
+          <ion-button class="btn_form_plantilla" style="--border-color:#ee3444;" fill="outline"  (click)="BorrarCampos()" ><img src="../../../assets/imagenes/ban.svg"></ion-button>
+           
+          <br>
+          <label style="text-align: center;color: #f59da4;font-size: small;margin-top: 2rem;">Developed By 
+            <a style="text-decoration: none; color: #A28BF7;" href="https://www.linkedin.com/in/jeronimo-granadillo/" target="_blank">Jeronimo Granadillo</a>
+            
+            <small> v1.0.1</small>
+          </label>
+          </ion-card-content>
+                
+        </ion-card>
+    
+      </div>
+
+    </div>
+  </div>
+</ion-content>

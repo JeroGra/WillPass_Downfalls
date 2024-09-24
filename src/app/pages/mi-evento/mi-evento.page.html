@@ -1,0 +1,301 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-button *ngIf="!creado_plantilla && !validando_entradas && !listarEntradas && !ver_estadisticas && !plantilla_select" id="btn_volver" fill="outline" size="medium" (click)="Volver()"><img src="../../../assets/imagenes/arrow-bar-left.svg"></ion-button>
+    <ion-title *ngIf="!creado_plantilla && !validando_entradas && !listarEntradas && !ver_estadisticas && !plantilla_select" style="text-align: center; color: #F87983; font-size: 1.5rem; font-weight: bolder;margin-right: 2rem; margin-top: 0.5rem;">{{mi_evento.nombre}}</ion-title>
+    <ion-title *ngIf="creado_plantilla || validando_entradas || listarEntradas || ver_estadisticas || plantilla_select" style="text-align: center; color: #F87983; font-size: 1.5rem; font-weight: bolder;margin-top: 0.5rem;text-align: center;">{{mi_evento.nombre}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" *ngIf="!qr.scan">
+
+  <div *ngIf="loading" class="custom-spinner">
+    <h1 class="spinnerh1"></h1>
+    <img src="../../../assets/imagenes/icon_rounded.png" alt="Custom Spinner" />
+  </div>
+
+  <div class="container text-center">
+    <div class="row justify-content-md-center row-cosl-1">
+
+       <!-- Valida que no se este creando una nueva plantilla-->
+      <div *ngIf="!creado_plantilla && !plantilla_select && !validando_entradas && !listarEntradas && !ver_estadisticas">
+        <!-- Si Hay plantillas de entradas-->
+        <div *ngIf="plantillas.length > 0">
+          <!-- Plantillas de entradas-->
+          <div *ngFor="let plantilla_entrada of plantillas" (click)="SelecionarPlantillaEntrada(plantilla_entrada)" class="col-md-auto">
+
+            <ion-card class="card_entrada" >
+
+              <ion-card-header>
+                
+                <ion-card-title style="font-weight: bold; font-size: 1.5rem; color: #F87983;">{{plantilla_entrada.nombre_entrada}}</ion-card-title>
+                <ion-card-subtitle style="font-weight: bold; font-size: 1.5rem; color:#F87983;">${{plantilla_entrada.valor}}</ion-card-subtitle>
+              </ion-card-header>
+            
+              <ion-card-content>
+                {{plantilla_entrada.descripcion}}
+              </ion-card-content>
+               
+              <ion-badge style="float: right; margin-right: 1rem; margin-bottom: 2rem; background-color:#F87983;" color="primary">{{plantilla_entrada.entradas_vendidas}}</ion-badge>
+         
+            </ion-card>
+            
+
+          </div>
+
+        </div>
+        <!--/////////////////////////////////-->
+
+        <!-- BOTON AGREGAR PLANTILLA ENTRADA -->
+        <div class="col-md-auto">
+
+          <ion-button *ngIf="usuario.admin || usuario.editor" id="btn_crear_plantilla" fill="outline" (click)="CrearNuevaPlantilla()">  <img src="../../../assets/imagenes/plus-lg.svg">  </ion-button>
+  
+        </div>
+
+
+      </div>
+      <!--////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
+
+      <!--/////////////////////////////////  Se crea Plantilla de entrada ////////////////////////////////////////////-->
+      <div *ngIf="creado_plantilla">
+        <div class="col-md-auto" id="col_creacion_evento">
+
+          <ion-button id="plantillas_automaticas" (click)="openPicker()">Plantillas Automaticas</ion-button>
+          
+
+          <ion-input
+          class="input_entrada"
+          name="nombre" 
+          label="Nombre/Tipo Entrada" 
+          label-placement="floating" 
+          fill="solid" 
+          [minlength]="3"
+          [maxlength]="20"
+          [counter]="true"
+          placeholder="Ingrese nombre o tipo de entrada"
+          type="name"
+          required="true"
+          [disabled]="this.plantilla_automatica !== 'personalizada'"
+          [(ngModel)]="nombre_plantilla"
+          [errorText]="error_nombre_plantilla"
+          ></ion-input>
+
+          <ion-input
+          class="input_entrada"
+          name="valor" 
+          label="Valor de Entrada" 
+          label-placement="floating" 
+          fill="solid" 
+          [counter]="true"
+          placeholder="Ingrese el Valor"
+          type="number"
+          required="true"
+          [(ngModel)]="valor_plantilla"
+          [errorText]="error_valor_plantilla"
+          [min]="0"
+          ></ion-input>
+
+
+          <ion-list style="margin-top: 1rem; background:#191919;">
+
+            <ion-item class="items_entradas">
+              <ion-checkbox 
+              class="check_entrada"
+              justify="space-between" 
+              [(ngModel)]="esVip" 
+              (ionChange)="onCheckboxVipChange($event)"
+              [disabled]="this.plantilla_automatica !== 'personalizada'"
+              > Es Vip </ion-checkbox>
+            </ion-item>
+    
+            <ion-item class="items_entradas">
+              <ion-checkbox
+              class="check_entrada" 
+              justify="space-between" 
+              [(ngModel)]="esPuerta" 
+              (ionChange)="onCheckboxPuertaChange($event)"
+              [disabled]="this.plantilla_automatica !== 'personalizada'"
+              > Venta solo en puerta </ion-checkbox>
+            </ion-item>
+      
+          </ion-list>
+
+
+
+          <ion-textarea
+          id="text_area_entrada" 
+          name="descripcion"
+          label="Descripción (opcional)" 
+          labelPlacement="floating" 
+          fill="outline" 
+          placeholder="Ingrese breve descripción"
+          [maxlength]="50"
+          [counter]="true"
+          [errorText]="error_descripcion_plantilla"
+          [disabled]="this.plantilla_automatica !== 'personalizada'"
+          [(ngModel)]="descripcion_plantilla"
+          ></ion-textarea>
+
+          
+
+          <br>
+
+          <ion-button class="btn_form_plantilla" fill="outline"  (click)="CrearPlantila()" > <img src="../../../assets/imagenes/plus-circle.svg"> </ion-button>
+          <ion-button class="btn_form_plantilla" fill="outline" style="--border-color:#ee3444;" (click)="VolverPlantillas()" ><img src="../../../assets/imagenes/ban.svg"></ion-button>
+
+        </div>
+      </div>
+      <!-- ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+
+      <!-- ////////////////////////////////// Se Acede a Plantilla de Entrada ////////////////////////////////////////////////////// -->
+      <div *ngIf="plantilla_select">
+        
+        <app-plantilla-selec [plantilla_selecionada]="plantilla_selecionada" (Deseleccionar_Plantilla)="DeselctPlantillaEntrada()" (SubirNuevaEntrada)="SubirEntrada($event)" (EliminarPlantilla)="EliminarPlantilla($event)"></app-plantilla-selec>
+
+      </div>
+      <!-- ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+
+      <!-- ////////////////////////////////// Se Validan Entradas  ///////////////////////////////////////////////////////////////////// -->
+      <div *ngIf="validando_entradas">
+        
+        <div *ngIf="!buscando && !existe && !no_existe">
+          <label style="margin-top: 1rem; font-weight: bolder; font-size: x-large; color: #F87983;">Buscar Ingresando DNI</label>
+          <ion-input
+          class="input_entrada"
+          name="dni" 
+          label="Dni del CLiente" 
+          label-placement="floating" 
+          fill="solid" 
+          [counter]="true"
+          placeholder="Ingrese dni del cliente"
+          type="number"
+          required="true"
+          [(ngModel)]="dni_cliente"
+          [errorText]="'Coloque un dni valido'"
+          [minlength]="7"
+          [maxlength]="8"
+          [min]="0000001"
+          [max]="99999999"
+          style="margin-top: 1rem;"
+          ></ion-input>
+        
+          <ion-button id="btn_buscar" fill="solid" size="medium" (click)="Buscar()">Buscar</ion-button>
+        </div>
+        
+        <div *ngIf="buscando && !existe && !no_existe">
+            <ion-spinner style="width: 15rem; height: 15rem; margin-top: 50%; --color:#F87983;" name="circular"></ion-spinner>
+        </div>
+        
+        <div  *ngIf="!buscando && existe && !no_existe">
+          <label style=" margin-top: 5%; font-weight: bolder;color: #48cc36; font-size: xx-large;">{{entrada_validada.tipo_plantilla}}</label>
+          <br>
+          <div style="background-color: #48cc36;border-radius: 10%;height: 20rem;padding-top: 2.5rem;"><img  style="width: 15rem; height: 15rem;" src="../../../assets/imagenes/check2.svg"></div>
+          <br>
+          <label style="margin-top: 2rem;font-weight: bolder;color: #48cc36; font-size: x-large;" >{{entrada_validada.nombre_cliente}} {{entrada_validada.apellido_cliente}}</label>
+          <br>
+          <label style="margin-top: 2rem;font-weight: bolder;color: #48cc36; font-size: x-large;">{{entrada_validada.dni}}</label>
+          <br>
+          <ion-button id="btn_volver_validacion" style="--background:#48cc36;" fill="solid" size="medium" (click)="VolverValidacion()">Volver</ion-button>
+        </div>
+        
+        <div  *ngIf="!buscando && !existe && no_existe">
+          <div style="background-color: #ee3444;border-radius: 15%;margin-top: 20%; height: 20rem;padding-top: 2.5rem;"><img style="width: 15rem; height: 15rem;" src="../../../assets/imagenes/x-mark.png"></div>
+          <br>
+          <label style="font-weight: bolder;color: #ee3444; font-size: x-large;">No se encuentra en lista</label>
+          <br>
+          <ion-button id="btn_volver_validacion" style="--background:#ee3444;" fill="solid" size="medium" (click)="VolverValidacion()">Volver</ion-button>
+        </div>
+        
+        
+      </div>
+
+      <!-- ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+
+      <!-- ////////////////////////////////// Lista Entradas ///////////////////////////////////////////////////////////////////// -->
+      <div *ngIf="listarEntradas">
+        <app-lista-entradas [entradas]="todas_las_entradas" [usuario]="usuario" (EliminarEntrada)="EliminarEntrada($event)"></app-lista-entradas>
+      </div>
+      <!-- ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+
+      <!-- ////////////////////////////////// Se Ven Estadisticas  ///////////////////////////////////////////////////////////////////// -->
+      <div *ngIf="ver_estadisticas">
+
+
+        <ion-card class="card_estadisticas" >
+        
+          <ion-card-content style=" color: #A28BF7;">
+            <h1>Ventas Totales: {{entradas_totales}}</h1>
+            <h1>Total Generado: ${{total_generado}}</h1>
+            <h1 *ngIf="entradas_vip > 0">Entradas Vip: {{entradas_vip}}/{{entradas_totales}}</h1>
+            <h1 *ngIf="entradas_en_puerta > 0">Entradas Puerta: {{entradas_en_puerta}}/{{entradas_totales}}</h1>
+          </ion-card-content>
+            
+        </ion-card> 
+
+        <div class="card card-grafico card-entradas-asistencias">
+          <h5 class="card-title" style="font-weight: bolder;">Entradas</h5>
+          <h6 class="card-subtitle mb-2" style="font-weight: bold;">Proporción entre asistencias y ausencias</h6>
+          <div  id="chartPuntuacionApp">
+            <apx-chart
+              [series]="chartOptionsEntradas!.series!"
+              [chart]="chartOptionsEntradas!.chart!"
+              [labels]="chartOptionsEntradas!.labels!"
+              [title]="chartOptionsEntradas!.title!"
+              [theme]="chartOptionsEntradas!.theme!"
+              [responsive]="chartOptionsEntradas!.responsive!"
+            ></apx-chart>
+          </div>
+        </div>
+        <div class="card card-grafico card-ventas">
+          <div class="card-body">
+            <h5 class="card-title" style="font-weight: bolder;">Ventas</h5>
+            <h6 class="card-subtitle mb-2" style="font-weight: bold;">Cantidad de ventas por fecha</h6>
+            <div id="chartAtencion">
+            <apx-chart 
+              [series]="chartOptionsVentasFecha!.series!"
+              [chart]="chartOptionsVentasFecha!.chart!"
+              [dataLabels]="chartOptionsVentasFecha!.dataLabels!"
+              [plotOptions]="chartOptionsVentasFecha!.plotOptions!"
+              [yaxis]="chartOptionsVentasFecha!.yaxis!"
+              [xaxis]="chartOptionsVentasFecha!.xaxis!"
+              [legend]="chartOptionsVentasFecha!.legend!"
+              [colors]="chartOptionsVentasFecha!.colors!"
+              [grid]="chartOptionsVentasFecha!.grid!"
+            ></apx-chart>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <!-- ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+         
+
+    </div>
+  </div>
+
+</ion-content>
+
+<div *ngIf="qr.scan" style="background-color: transparent;">
+  <ion-card id="qr_card">
+
+ 
+  </ion-card>
+</div>
+
+<div *ngIf="qr.scan" style="display: flex;background-color: transparent;justify-content: center;align-items: center;">
+    <ion-button *ngIf="flash_active" id="btn_flash" fill="outline" size="medium" (click)="Flashlight()" ><img width="65"  src="../../../assets/imagenes/brightness-high-fill.svg"></ion-button>
+    <ion-button *ngIf="!flash_active" id="btn_flash" fill="outline" size="medium" (click)="Flashlight()" ><img width="65" src="../../../assets/imagenes/brightness-high.svg"></ion-button> 
+</div>
+
+<ion-footer *ngIf="!creado_plantilla && !plantilla_select" >
+  <ion-toolbar style="padding-left: 1rem; padding-right: 1rem;">
+    <ion-button *ngIf="!validando_entradas && !listarEntradas && !ver_estadisticas" id="btn_graficos" fill="solid" size="medium" (click)="ValidarEntradas()" ><img width="30" src="../../../assets/imagenes/check2-square.svg"></ion-button>
+    <ion-button *ngIf="!validando_entradas  && !listarEntradas && !ver_estadisticas" id="btn_graficos" fill="solid" size="medium" (click)="ListarEntradas()" ><img width="30" src="../../../assets/imagenes/list-ul.svg"></ion-button>
+    <ion-button *ngIf="!validando_entradas  && !listarEntradas && !ver_estadisticas" id="btn_graficos" fill="solid" size="medium" (click)="VerEstadisticas()" ><img width="30" src="../../../assets/imagenes/bar-chart-fill.svg"></ion-button>
+    <ion-button *ngIf="validando_entradas" id="btn_cancelar_valid" style="width:48%;"  fill="outline" size="medium" (click)="CancelarValidacion()" ><img width="30" src="../../../assets/imagenes/ban.svg"></ion-button>
+    <ion-button *ngIf="validando_entradas" id="btn_validar" style="width:48%;" fill="solid" size="medium" (click)="ScanDNI()" ><img width="30" src="../../../assets/imagenes/qr-code-scan.svg"></ion-button>
+    <ion-button *ngIf="listarEntradas" id="btn_cancelar_valid"  fill="outline" size="medium" (click)="ListarEntradas()" ><img width="30" src="../../../assets/imagenes/ban.svg"></ion-button>
+    <ion-button *ngIf="ver_estadisticas" id="btn_cancelar_valid"  fill="outline" size="medium" (click)="VerEstadisticas()" ><img width="30" src="../../../assets/imagenes/ban.svg"></ion-button>
+
+  </ion-toolbar>
+</ion-footer> 

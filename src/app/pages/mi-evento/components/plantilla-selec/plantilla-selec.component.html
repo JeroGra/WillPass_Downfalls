@@ -1,0 +1,134 @@
+
+  <div class="col-md-auto" id="col_creacion_evento">
+    
+    <ion-card class="card_entrada" >
+
+      <ion-card-header>
+        
+        <ion-card-title style="font-weight: bold; font-size: 1.5rem; color: #F87983;">{{plantilla_selecionada.nombre_entrada}}</ion-card-title>
+        <ion-card-subtitle style="font-weight: bold; font-size: 1.5rem; color:#F87983;">${{plantilla_selecionada.valor}}</ion-card-subtitle>
+      </ion-card-header>
+    
+      <ion-card-content>
+        {{plantilla_selecionada.descripcion}}
+      </ion-card-content>
+      
+      <ion-badge style="float: right; margin-right: 1rem; margin-bottom: 0.5rem;background-color: #F87983;" color="primary">{{plantilla_selecionada.entradas_vendidas}}</ion-badge>
+      <ion-button id="btn_eliminar" *ngIf="plantilla_selecionada.entradas_vendidas <= 0"  style="--border-color:transparent;; float: left;width: 4.5rem;margin-left: 0.5rem;" fill="outline" ><img width="30" src="../../../assets/imagenes/trash.svg"></ion-button>
+
+    </ion-card>
+
+    <!-- DATOS NO OBLIGATORIOS-->
+    <div *ngIf="plantilla_selecionada.en_puerta">
+      <ion-input
+      class="input_entrada"
+      name="nombre" 
+      label="Nombre Cliente (opcional)" 
+      label-placement="floating" 
+      fill="solid" 
+      [maxlength]="50"
+      [counter]="true"
+      placeholder="Ingrese nombre del cliente"
+      type="name"
+      [(ngModel)]="nombre_cliente"
+      [errorText]="'Maximo 50 caracteres'"
+      ></ion-input>
+
+      <ion-input
+      class="input_entrada"
+      name="apellido" 
+      label="Apellido Cliente (opcional)" 
+      label-placement="floating" 
+      fill="solid" 
+      [maxlength]="50"
+      [counter]="true"
+      placeholder="Ingrese apellido del cliente"
+      type="name"
+      [(ngModel)]="apellido_cliente"
+      [errorText]="'Maximo 50 caracteres'"
+      ></ion-input>
+
+      <ion-input
+      class="input_entrada"
+      name="dni" 
+      label="Dni del CLiente (opcional)" 
+      label-placement="floating" 
+      fill="solid" 
+      [counter]="true"
+      placeholder="Ingrese dni del cliente"
+      type="number"
+      [(ngModel)]="dni_cliente"
+      [errorText]="'Coloque un dni valido'"
+      [maxlength]="8"
+      [max]="99999999"
+      ></ion-input>
+    </div>
+    <!-- DATOS OBLIGATORIOS-->
+    <div *ngIf="!plantilla_selecionada.en_puerta">
+      <ion-input
+      class="input_entrada"
+      name="nombre" 
+      label="Nombre Cliente" 
+      label-placement="floating" 
+      fill="solid" 
+      [minlength]="2"
+      [maxlength]="50"
+      [counter]="true"
+      placeholder="Ingrese nombre del cliente"
+      type="name"
+      required="true"
+      [(ngModel)]="nombre_cliente"
+      [errorText]="'Coloque un nombre entre 2 a 50 caracteres'"
+      ></ion-input>
+
+      <ion-input
+      class="input_entrada"
+      name="apellido" 
+      label="Apellido Cliente" 
+      label-placement="floating" 
+      fill="solid" 
+      [minlength]="2"
+      [maxlength]="50"
+      [counter]="true"
+      placeholder="Ingrese apellido del cliente"
+      type="name"
+      required="true"
+      [(ngModel)]="apellido_cliente"
+      [errorText]="'Coloque un apellido entre 2 a 50 caracteres'"
+      ></ion-input>
+
+      <ion-input
+      class="input_entrada"
+      name="dni" 
+      label="Dni del CLiente" 
+      label-placement="floating" 
+      fill="solid" 
+      [counter]="true"
+      placeholder="Ingrese dni del cliente"
+      type="number"
+      required="true"
+      [(ngModel)]="dni_cliente"
+      [errorText]="'Coloque un dni valido'"
+      [minlength]="7"
+      [maxlength]="8"
+      [min]="1000000"
+      [max]="99999999"
+      ></ion-input>
+    </div>
+    
+
+    <br>
+
+    <ion-button class="btn_form_plantilla" fill="outline"  (click)="VenderEntrada()" > <img src="../../../assets/imagenes/plus-circle.svg"> </ion-button>
+    <ion-button class="btn_form_plantilla" style="--border-color:#ee3444;" fill="outline"  (click)="DeselctPlantillaEntrada()" ><img src="../../../assets/imagenes/ban.svg"></ion-button>
+    
+    <ion-alert
+        trigger="btn_eliminar"
+        header="Eliminar Plantilla?"
+        class="custom-alert"
+        [buttons]="alertButtons"
+        (didDismiss)="setResult($event)"
+      ></ion-alert>
+
+  </div>
+  

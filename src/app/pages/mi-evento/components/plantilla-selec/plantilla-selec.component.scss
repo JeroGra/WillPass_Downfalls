@@ -1,0 +1,26 @@
+.input_entrada {
+    width: 99%;
+    height: 3rem;
+    margin-top: 2rem ;
+    --background: #393939;
+    --color: #F87983 ;
+    --highlight-color-focused: #F87983;
+}
+
+.card_entrada {
+    width: 95%;
+    min-height: 11rem;
+    max-height: 14rem;
+    margin-top: 0.5rem;
+    box-shadow: 0px 26px 63px -8px rgba(0,0,0,0.67);
+    background-color: #292929;
+    color: #f87984bb;
+}
+
+.btn_form_plantilla {
+    width: 48%;
+    min-height: 3.5rem;
+    margin-top: 0.5rem;
+    --border-color:  #A28BF7; 
+    --color:#A28BF7;
+}

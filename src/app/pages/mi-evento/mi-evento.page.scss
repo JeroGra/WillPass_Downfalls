@@ -1,0 +1,170 @@
+ion-content{
+    --background:#191919;
+}
+
+ion-content.existe{
+    --background:#48cc36;
+}
+
+ion-content.no_existe{
+    --background:#ee3444;
+}
+
+ion-content.buscando{
+    --background:#F87983;
+}
+
+
+#btn_crear_plantilla {
+    width: 95%;
+    height: 10rem;
+    margin-top: 0.5rem;
+    box-shadow: 0px 26px 63px -8px rgba(0,0,0,0.67);
+    --border-color:#F87983;
+    --color:#F87983;
+}
+
+.card_entrada {
+    width: 95%;
+    height: 11rem;
+    margin-top: 0.5rem;
+    box-shadow: 0px 26px 63px -8px rgba(0,0,0,0.67);
+    background-color: #292929;
+    color: #f87984bb;
+}
+
+#col_creacion_evento{
+    padding: 1.5rem;
+}
+
+.input_entrada {
+    width: 99%;
+    height: 3rem;
+    margin-top: 2rem ;
+    --background: #393939;
+    --color: #F87983 ;
+    --highlight-color-focused: #F87983;
+}
+
+.check_entrada{
+    color: #F87983;
+    --border-color: #F87983;
+    --border-color-checked: #A28BF7;
+    --checkbox-background-checked: #A28BF7;
+}   
+
+#text_area_entrada{
+    margin-top: 1rem;
+    width: 99%;
+    height: 3rem;
+    --background: #393939;
+    --color: #F87983 ;
+    --highlight-color-focused: #F87983;
+}
+
+.items_entradas{
+    --background: #292929;
+}
+
+#plantillas_automaticas{
+    width: 99%;
+    height: 3rem;
+    --background:#F87983;
+    --color:#292929;
+    font-weight: bold;
+}
+
+.btn_form_plantilla {
+    width: 48%;
+    min-height: 3.5rem;
+    margin-top: 0.5rem;
+    --border-color:  #A28BF7; 
+    --color:#A28BF7;
+}
+
+#btn_volver{
+    --border-color:  #F87983; 
+    --color:#F87983;
+    float: left;
+    height: 3rem;
+}
+
+#btn_validar{
+    width: 48%;
+    --background:#F87983 ;
+}
+
+#btn_graficos{
+    width: 32%;
+    --background:#F87983 ;
+}
+
+#btn_buscar{
+    --background:#A28BF7 ;
+    height: 3rem;
+    width: 99%;
+    margin-top: 2rem;
+    font-weight: bold;
+}
+
+#btn_cancelar_valid{
+    --border-color:  #ee3444; 
+    --color:#ee3444;
+    height: 3rem;
+    width: 99%;
+}
+
+#btn_volver_validacion{
+    --background:#A28BF7 ;
+    --color:#191919;
+    height: 3rem;
+    width: 95%;
+    margin-top: 1rem;
+    font-weight: bold;
+}
+
+#qr_card{
+    background-color: transparent; 
+    border:#F87983 solid 0.2rem; width: 15rem; height: 15rem;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 20%;
+}
+
+
+.card_estadisticas {
+    width: 95%;
+    margin-top: 0.5rem;
+    background-color: #292929;
+}
+
+.card-entradas-asistencias{
+    width: 95%;
+    margin-top: 0.5rem ;
+    color: #292929;
+    background-color: #A28BF7;
+    box-shadow: 0px 26px 63px -8px rgba(0,0,0,0.67);
+}
+
+.card-grafico{
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    font-weight: bolder;
+    font-size: larger;
+    color: #292929;
+}
+
+.card-ventas{
+    width: 95%;
+    margin-top: 0.5rem ;
+    color: #292929;
+    background-color: #A28BF7;
+}
+
+#btn_flash{
+    width: 8rem;
+    height: 8rem;
+    --background:transparent;
+    --border-color:transparent;
+}
