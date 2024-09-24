@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
-import { NavController, ToastController } from '@ionic/angular';
+import { MenuController, NavController, ToastController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { Evento } from 'src/app/entities/evento';
 import { Usuario } from 'src/app/entities/usuario';
@@ -30,7 +30,7 @@ export class HomePage implements OnDestroy {
 
   loading = false
 
-  constructor(private toastController:ToastController, private db : DataBaseService, private ruta : NavController) {
+  constructor(private toastController:ToastController, private db : DataBaseService, private ruta : NavController, private menuCtrl: MenuController) {
     this.loading = true
     this.usuario = this.db.ObtenerMiUsuarioLocalstorage()
     this.Subcriber = this.db.ObtenerEventosObservableUidUsuario(this.usuario.uid_admin).subscribe((eventos : any) => {
@@ -69,7 +69,7 @@ export class HomePage implements OnDestroy {
     const days = Math.floor(difference / (1000 * 60 * 60 * 24));
 
 
-    return `Faltan ${days} días.`;
+    return `Faltan ${days } días.`;
 }
 
   CrearEvento(){
@@ -199,6 +199,10 @@ export class HomePage implements OnDestroy {
         this.presentToast("top","No hay ningun dato cambiado","warning")
       }
     }
+  }
+
+  AbrirMenu(){
+    this.menuCtrl.open('menu-usuario');
   }
 
   ngOnDestroy() {

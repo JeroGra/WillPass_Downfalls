@@ -38,6 +38,7 @@ export class LoginPage {
           this.db.GuardarUsuarioLocalstorage(usuario)
           this.loading = false
           this.presentToast("top","Bienvenido/a "+usuario.nombre,"success")
+          
           this.BorrarCampos()
           this.ruta.navigateRoot(["home"])
         } else {

@@ -64,6 +64,25 @@ button.alert-button.alert-button-cancel {
   font-weight: bold;
 }
 
+ion-content{
+    --background:#191919;
+}
+
+ion-menu{
+  --min-width: 35%;
+  --max-width: 40%;
+}
+
+ion-menu::part(backdrop) {
+  background-color: #f87984de;
+}
+
+ion-menu::part(container) {
+  border-radius: 0 20px 20px 0;
+
+  box-shadow: 4px 0px 16px #41181c
+}
+
 // SPINER
 @keyframes rotate-center {
     0% {
