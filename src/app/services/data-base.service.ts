@@ -133,6 +133,11 @@ export class DataBaseService {
     return data
   }
 
+  TraerUsuariosAsociados(uid_organizador : string){
+    const q = query(collection(this.firestore, 'usuarios'), where("uid_organizador", "==", uid_organizador));
+    return collectionData(q)
+  }
+
   ModificarUsuario(usuario : Usuario){
     let ok = true
     const coleccion = collection(this.firestore,`usuarios`)
@@ -141,6 +146,36 @@ export class DataBaseService {
     let rt = updateDoc(documento,obj).
     then((val) =>{
       console.log(val)
+    }).catch((err) => {
+      console.log(err)
+      ok = false
+    });
+
+    return ok
+  }
+
+  AgregarUsuario(usuario : Usuario){
+    let ok = true
+    const coleccion = collection(this.firestore, 'usuarios')
+    const documento = doc(coleccion);
+    const uid = documento.id;
+    usuario.uid = uid
+    setDoc(documento, JSON.parse(JSON.stringify(usuario))).then((val) =>{
+      
+    }).catch((err) => {
+      console.log(err)
+      ok = false
+    });
+
+    return ok
+  }
+
+  EliminarUsuario(uid_usuario : string) {
+    let ok = true
+    const coleccion = collection(this.firestore,`usuarios`)
+    const documento = doc(coleccion,uid_usuario);
+    let rt = deleteDoc(documento).then((val) =>{
+      
     }).catch((err) => {
       console.log(err)
       ok = false
@@ -169,8 +204,8 @@ export class DataBaseService {
     return ok
   }
 
-  ObtenerEventosObservableUidUsuario(uid_admin : string){
-    const q = query(collection(this.firestore,'eventos'),where('uid_admin','==',uid_admin));
+  ObtenerEventosObservableUidUsuario(uid_organizador : string){
+    const q = query(collection(this.firestore,'eventos'),where('uid_organizador','==',uid_organizador));
     return collectionData(q)
   }
 

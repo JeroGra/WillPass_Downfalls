@@ -1,13 +1,69 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>usuarios</ion-title>
+    <ion-button id="btn_volver" fill="outline" size="medium" (click)="Volver()"><img src="../../../assets/imagenes/arrow-bar-left.svg"></ion-button>
   </ion-toolbar>
 </ion-header>
 
+<div *ngIf="loading" class="custom-spinner">
+  <h1 class="spinnerh1"></h1>
+  <img src="../../../assets/imagenes/icon_rounded.png" alt="Custom Spinner" />
+</div>
+
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">usuarios</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <div class="container text-center">
+    <div class="row justify-content-md-center row-cosl-1" style="padding: 0.5rem;"> 
+
+      <div *ngIf="usuarios.length > 0 && !edicion_usuario">
+        <div *ngFor="let usuario_asociado of usuarios"  class="col-md-auto">
+          
+          <!--Card Usuario-->
+          <ion-card class="card_usuarios" >
+           <div>
+             <ion-card-header>
+               <ion-card-title style="font-weight: bold; font-size: 1.5rem; color: #F87983;"> {{usuario_asociado.nombre}}</ion-card-title>
+               <ion-card-subtitle style="font-weight: bold; font-size: medium; color:#f87984bb;">{{usuario_asociado.tipo}}</ion-card-subtitle>
+             </ion-card-header>
+             <ion-card-content >
+               <ion-button class="btn_acciones" fill="outline" size="medium"  ><img width="25" (click)="UserSelectEditar(usuario_asociado)" src="../../../assets/imagenes/pen.svg"></ion-button>
+               <ion-button id="btn_eliminar" class="btn_acciones" fill="outline" size="medium" (click)="UserSelectEliminar(usuario_asociado)" ><img width="25" src="../../../assets/imagenes/trash.svg"></ion-button>
+               <ion-alert
+               trigger="btn_eliminar"
+               header="Eliminar Usuario?"
+               class="custom-alert"
+               [buttons]="alertButtons"
+               (didDismiss)="setResult($event)"
+             ></ion-alert>
+             </ion-card-content>
+           </div>
+          </ion-card>
+  
+        </div>
+      </div>
+
+      <label style="font-weight: bolder; font-size: large;color: #868686;" *ngIf="usuarios.length <= 0">No hay Usuarios Asociados</label>
+
+      <div *ngIf="edicion_usuario">
+        <ion-card class="card_usuario_select" >
+          <div>
+            <ion-card-header>
+              <ion-card-title style="font-weight: bold; font-size: 1.5rem; color: #F87983;"> {{usuario_select.nombre}}</ion-card-title>
+              <ion-card-subtitle style="font-weight: bold; font-size: medium; color:#f87984bb;">{{usuario_select.tipo}}</ion-card-subtitle>
+            </ion-card-header>
+            <ion-card-content >
+
+              <ion-button *ngIf="usuario.organizador" class="permisos_usuario" style="margin-top: 1rem;" (click)="openPickerOrganizador()">Permisos de Usuario</ion-button>
+              <ion-button *ngIf="!usuario.organizador" class="permisos_usuario" (click)="openPickerAdmin()">Permisos de Usuario</ion-button>
+            
+              <label style="color: #F87983;">Permiso de Usuario: <label style="color: #A28BF7; font-weight: bold;margin-bottom: 1rem;">{{permiso}}</label> </label>
+
+              <ion-button class="btn_principal" fill="outline" style="--border-color:  #A28BF7; --color:#A28BF7;" (click)="Modificar()" ><img src="../../../assets/imagenes/plus-circle.svg"></ion-button>
+              <ion-button class="btn_principal" fill="outline" style="--border-color:  #ee3444; --color:#ee3444;"  (click)="Deselect()"><img src="../../../assets/imagenes/ban.svg"></ion-button>
+
+            </ion-card-content>
+          </div>
+         </ion-card>
+      </div>
+
+    </div>
+  </div>
 </ion-content>

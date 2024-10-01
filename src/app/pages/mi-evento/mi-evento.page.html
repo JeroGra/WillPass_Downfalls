@@ -48,7 +48,7 @@
         <!-- BOTON AGREGAR PLANTILLA ENTRADA -->
         <div class="col-md-auto">
 
-          <ion-button *ngIf="usuario.admin || usuario.editor" id="btn_crear_plantilla" fill="outline" (click)="CrearNuevaPlantilla()">  <img src="../../../assets/imagenes/plus-lg.svg">  </ion-button>
+          <ion-button *ngIf="usuario.admin" id="btn_crear_plantilla" fill="outline" (click)="CrearNuevaPlantilla()">  <img src="../../../assets/imagenes/plus-lg.svg">  </ion-button>
   
         </div>
 
@@ -150,7 +150,7 @@
       <!-- ////////////////////////////////// Se Acede a Plantilla de Entrada ////////////////////////////////////////////////////// -->
       <div *ngIf="plantilla_select">
         
-        <app-plantilla-selec [plantilla_selecionada]="plantilla_selecionada" (Deseleccionar_Plantilla)="DeselctPlantillaEntrada()" (SubirNuevaEntrada)="SubirEntrada($event)" (EliminarPlantilla)="EliminarPlantilla($event)"></app-plantilla-selec>
+        <app-plantilla-selec [plantilla_selecionada]="plantilla_selecionada" [usuario]="usuario" (Deseleccionar_Plantilla)="DeselctPlantillaEntrada()" (SubirNuevaEntrada)="SubirEntrada($event)" (EliminarPlantilla)="EliminarPlantilla($event)"></app-plantilla-selec>
 
       </div>
       <!-- ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->

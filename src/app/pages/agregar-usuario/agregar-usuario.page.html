@@ -1,13 +1,60 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>agregar-usuario</ion-title>
+    <ion-button id="btn_volver" fill="outline" size="medium" (click)="Volver()"><img src="../../../assets/imagenes/arrow-bar-left.svg"></ion-button>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">agregar-usuario</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <div class="container text-center">
+    <div class="row justify-content-md-center row-cosl-1" style="padding: 0.5rem;"> 
+
+        <ion-input
+        name="Nombre" 
+        label="Nombre" 
+        label-placement="floating" 
+        fill="outline" 
+        [minlength]="6"
+        [maxlength]="30"
+        [counter]="true"
+        placeholder="Ingrese Nombre"
+        type="name"
+        required="true"
+        [(ngModel)]="u_nombre"
+        [errorText]="'Coloque un nombre entre 6 a 30 caracteres'"
+        clearInput="true"
+        ></ion-input>
+  
+        <ion-button *ngIf="tipo_clave === 'password'" id="btn_ver" fill="outline" size="medium" (click)="Ver()" ><img width="25" src="../../../assets/imagenes/eye-slash.svg"></ion-button>
+        <ion-button *ngIf="tipo_clave !== 'password'" id="btn_ver" fill="outline" size="medium" (click)="Ver()" ><img width="25" src="../../../assets/imagenes/eye.svg"></ion-button>
+
+        <ion-input
+        name="clave" 
+        label="Clave" 
+        label-placement="floating" 
+        fill="outline" 
+        [minlength]="6"
+        [maxlength]="30"
+        [counter]="true"
+        placeholder="Ingrese la Clave"
+        [type]="tipo_clave"
+        required="true"
+        [(ngModel)]="u_clave"
+        [errorText]="'Coloque una clave entre 6 a 30 caracteres'"
+        clearInput="true"
+        style="margin-top: 0rem;"
+        ></ion-input>
+  
+        <ion-button *ngIf="usuario.organizador" class="permisos_usuario" (click)="openPickerOrganizador()">Permisos de Usuario</ion-button>
+        <ion-button *ngIf="!usuario.organizador" class="permisos_usuario" (click)="openPickerAdmin()">Permisos de Usuario</ion-button>
+      
+        <label style="color: #F87983;">Permiso de Usuario: <label style="color: #A28BF7; font-weight: bold;">{{permiso}}</label> </label>
+
+        <ion-button (click)="Agregar()" class="btn_principal" fill="outline" style="--border-color:  #A28BF7; --color:#A28BF7;" ><img src="../../../assets/imagenes/plus-circle.svg"></ion-button>
+
+        <ion-card>
+          
+        </ion-card>
+
+    </div>
+  </div>
 </ion-content>

@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ToastController } from '@ionic/angular';
 import { Entrada } from 'src/app/entities/entrada';
 import { Plantilla_Entrada } from 'src/app/entities/plantilla_entrada';
+import { Usuario } from 'src/app/entities/usuario';
 
 @Component({
   selector: 'app-plantilla-selec',
@@ -11,6 +12,7 @@ import { Plantilla_Entrada } from 'src/app/entities/plantilla_entrada';
 export class PlantillaSelecComponent  {
 
   @Input() plantilla_selecionada : Plantilla_Entrada = new Plantilla_Entrada
+  @Input() usuario : Usuario = new Usuario
   @Output() Deseleccionar_Plantilla = new EventEmitter<void>();
   @Output() SubirNuevaEntrada = new EventEmitter<Entrada>();
   @Output() EliminarPlantilla = new EventEmitter<Plantilla_Entrada>();

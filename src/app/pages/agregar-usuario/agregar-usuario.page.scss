@@ -1,0 +1,42 @@
+#btn_volver{
+    --border-color:  transparent; 
+    --color:#F87983;
+    --border-width: 0rem;
+    float: left;
+    height: 3rem;
+}
+
+ion-input {
+    width: 99%;
+    height: 5rem;
+    margin-top: 2rem ;
+    --background: #292929;
+    --color: #F87983 ;
+    --highlight-color-focused: #F87983;
+}
+
+.permisos_usuario{
+    width: 99%;
+    height: 3rem;
+    --background:#F87983;
+    --color:#292929;
+    font-weight: bold;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+}
+
+.btn_principal{
+    width: 99%;
+    min-height: 4rem;
+    margin-top: 1.5rem;
+}
+
+#btn_ver{
+    --border-color:  transparent; 
+    --color:#A28BF7;
+    --border-width: 0rem;
+    margin-top: 1.5rem;
+    height: 3rem;
+    width: 5rem;
+    margin-left: -3.5%;
+}

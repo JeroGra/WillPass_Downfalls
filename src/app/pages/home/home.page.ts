@@ -33,7 +33,7 @@ export class HomePage implements OnDestroy {
   constructor(private toastController:ToastController, private db : DataBaseService, private ruta : NavController, private menuCtrl: MenuController) {
     this.loading = true
     this.usuario = this.db.ObtenerMiUsuarioLocalstorage()
-    this.Subcriber = this.db.ObtenerEventosObservableUidUsuario(this.usuario.uid_admin).subscribe((eventos : any) => {
+    this.Subcriber = this.db.ObtenerEventosObservableUidUsuario(this.usuario.uid_organizador).subscribe((eventos : any) => {
       this.eventos = eventos as Evento[]
       this.loading = false
     })
@@ -106,7 +106,7 @@ export class HomePage implements OnDestroy {
       nuevo_evento.nombre = this.nombre_evento
       nuevo_evento.fecha = this.fecha_evento
       nuevo_evento.hora = this.hora_evento
-      nuevo_evento.uid_admin = this.usuario.uid_admin
+      nuevo_evento.uid_organizador = this.usuario.uid_organizador
       // Lo sube a la bd
       let ok = this.db.AgregarEvento(nuevo_evento)
       if(ok){ this.presentToast("top","Evento Creado!","success") } else { this.presentToast("top","No se pudo Crear. Error Con la Conexion","danger") }
@@ -210,15 +210,15 @@ export class HomePage implements OnDestroy {
   }
 
   AgregarUsuarios(){
-    // this.ruta.navigateRoot(['login'])
+    this.ruta.navigateRoot(['agregar-usuario'])
   }
 
   Usuarios(){
-    // this.ruta.navigateRoot(['login'])
+    this.ruta.navigateRoot(['usuarios'])
   }
 
   RendimietnoEventos(){
-    // this.ruta.navigateRoot(['login'])
+    this.ruta.navigateRoot(['rendimiento-eventos'])
   }
 
   ngOnDestroy() {

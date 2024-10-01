@@ -404,7 +404,7 @@ export class MiEventoPage implements OnDestroy {
   //#region GRAFICOS y ESTADISTICAS
 
   VerEstadisticas(){
-    if(this.usuario.admin || this.usuario.editor){
+    if(this.usuario.admin){
       if(!this.ver_estadisticas){
         this.ver_estadisticas = true
         this.GenerarEstadisticas()

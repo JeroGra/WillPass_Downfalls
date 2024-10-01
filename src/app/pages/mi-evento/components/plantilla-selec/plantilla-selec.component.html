@@ -14,7 +14,7 @@
       </ion-card-content>
       
       <ion-badge style="float: right; margin-right: 1rem; margin-bottom: 0.5rem;background-color: #F87983;" color="primary">{{plantilla_selecionada.entradas_vendidas}}</ion-badge>
-      <ion-button id="btn_eliminar" *ngIf="plantilla_selecionada.entradas_vendidas <= 0"  style="--border-color:transparent;; float: left;width: 4.5rem;margin-left: 0.5rem;" fill="outline" ><img width="30" src="../../../assets/imagenes/trash.svg"></ion-button>
+      <ion-button id="btn_eliminar" *ngIf="plantilla_selecionada.entradas_vendidas <= 0 && usuario.admin"  style="--border-color:transparent;; float: left;width: 4.5rem;margin-left: 0.5rem;" fill="outline" ><img width="30" src="../../../assets/imagenes/trash.svg"></ion-button>
 
     </ion-card>
 

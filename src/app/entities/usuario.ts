@@ -1,6 +1,6 @@
 export class Usuario {
     uid : string = ""
-    uid_admin : string = ""
+    uid_organizador : string = ""
     nombre : string = ""
     clave : string = ""
     tipo : string = ""

@@ -58,7 +58,7 @@ export class PerfilPage  {
             new_usr.nombre = this.u_nombre
 
             let ok = this.db.ModificarUsuario(new_usr)
-            if(ok){ this.presentToast("top","Usuario Modificado","success") } else { this.presentToast("top","No se pudo Crear. Error Con la Conexion","danger") }
+            if(ok){ this.presentToast("top","Usuario Modificado","success") } else { this.presentToast("top","No se pudo Modificar. Error Con la Conexion","danger") }
             this.db.GuardarUsuarioLocalstorage(new_usr)
             this.usuario = new_usr
             this.user_visible = new_usr
@@ -86,7 +86,7 @@ export class PerfilPage  {
             new_usr.clave = this.u_clave_nueva
 
             let ok = this.db.ModificarUsuario(new_usr)
-            if(ok){ this.presentToast("top","Usuario Modificado","success") } else { this.presentToast("top","No se pudo Crear. Error Con la Conexion","danger") }
+            if(ok){ this.presentToast("top","Usuario Modificado","success") } else { this.presentToast("top","No se pudo Modificar. Error Con la Conexion","danger") }
             this.db.GuardarUsuarioLocalstorage(new_usr)
             this.usuario = new_usr
             this.user_visible = new_usr

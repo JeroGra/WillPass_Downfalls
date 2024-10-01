@@ -4,6 +4,7 @@ export class Evento {
     nombre : string = ""
     fecha : any = null
     hora : any = null
-    uid_admin : string = ""
+    uid_organizador : string = ""
+    
     constructor() {}
 }
