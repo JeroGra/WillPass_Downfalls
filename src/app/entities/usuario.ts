@@ -6,4 +6,5 @@ export class Usuario {
     tipo : string = ""
     admin : boolean = false
     editor : boolean = false
+    organizador : boolean = false
 }

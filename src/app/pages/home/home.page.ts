@@ -205,6 +205,22 @@ export class HomePage implements OnDestroy {
     this.menuCtrl.open('menu-usuario');
   }
 
+  Perfil(){
+    this.ruta.navigateRoot(['perfil'])
+  }
+
+  AgregarUsuarios(){
+    // this.ruta.navigateRoot(['login'])
+  }
+
+  Usuarios(){
+    // this.ruta.navigateRoot(['login'])
+  }
+
+  RendimietnoEventos(){
+    // this.ruta.navigateRoot(['login'])
+  }
+
   ngOnDestroy() {
     this.Subcriber.unsubscribe()
   }

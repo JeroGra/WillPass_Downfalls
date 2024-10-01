@@ -17,10 +17,23 @@ const routes: Routes = [
   {
     path: 'login',
     loadChildren: () => import('./pages/login/login.module').then( m => m.LoginPageModule)
+  },
+  {
+    path: 'perfil',
+    loadChildren: () => import('./pages/perfil/perfil.module').then( m => m.PerfilPageModule)
+  },
+  {
+    path: 'usuarios',
+    loadChildren: () => import('./pages/usuarios/usuarios.module').then( m => m.UsuariosPageModule)
+  },
+  {
+    path: 'agregar-usuario',
+    loadChildren: () => import('./pages/agregar-usuario/agregar-usuario.module').then( m => m.AgregarUsuarioPageModule)
+  },
+  {
+    path: 'rendimiento-eventos',
+    loadChildren: () => import('./pages/rendimiento-eventos/rendimiento-eventos.module').then( m => m.RendimientoEventosPageModule)
   }
-
-
-
 ];
 @NgModule({
   imports: [

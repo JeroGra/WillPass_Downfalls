@@ -1,0 +1,93 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-button  (click)="Volver()" *ngIf="!editando" id="btn_volver" fill="outline" size="medium" ><img src="../../../assets/imagenes/arrow-bar-left.svg"></ion-button>
+  </ion-toolbar>
+</ion-header>
+
+
+
+
+
+<ion-content [fullscreen]="true">
+  <div class="container text-center">
+    <div class="row justify-content-md-center row-cosl-1"> 
+
+      <ion-card>
+        <img style="margin-top: 0.5rem;" width="100" src="../../../assets/imagenes/person-circle.svg" />
+        <br>
+        <label style="color: #F87983; margin-top:0.2rem;">{{user_visible.tipo}}</label>
+      
+        <ion-card-content>
+
+          <div *ngIf="!editando">
+            <ion-list>
+
+              <ion-item>
+                <label class="usuario-param" >{{user_visible.nombre}}</label>
+              </ion-item>
+
+            </ion-list>
+          </div>
+         
+          <div *ngIf="editando">
+
+                <ion-input 
+                label="Nombre" 
+                labelPlacement="floating" 
+                placeholder="Ingrese Nombre"
+                [counter]="true"
+                [clearInput]="true"
+                [minlength]="6"
+                [maxlength]="30"
+                [errorText]="'Nombre entre 6 a 30 caracteres'"
+                type="text"
+                [(ngModel)]="u_nombre"
+                fill="outline"
+                ></ion-input>
+
+                <ion-input 
+                label="Clave Actual" 
+                labelPlacement="floating" 
+                placeholder="Ingrese Clace Actual"
+                [counter]="true"
+                [clearInput]="true"
+                [minlength]="6"
+                [maxlength]="30"
+                [errorText]="'Clave entre 6 a 30 caracteres'"
+                type="password"
+                [(ngModel)]="u_clave"
+                fill="outline"
+                ></ion-input>
+
+                <ion-input 
+                label="Clave Nueva" 
+                labelPlacement="floating" 
+                placeholder="Ingrese Clace Nueva"
+                [counter]="true"
+                [clearInput]="true"
+                [minlength]="6"
+                [maxlength]="30"
+                [errorText]="'Clave entre 6 a 30 caracteres'"
+                type="password"
+                [disabled]="u_clave.length < 6"
+                [(ngModel)]="u_clave_nueva"
+                fill="outline"
+                ></ion-input>
+
+                <br>
+    
+                <ion-button (click)="Modificar()" class="btn_editando" fill="outline" style="--border-color:  #A28BF7; --color:#A28BF7;"  ><img src="../../../assets/imagenes/plus-circle.svg"></ion-button>
+                <ion-button (click)="Editar()" class="btn_editando" fill="outline" style="--border-color:  #ee3444; --color:#ee3444;"  ><img src="../../../assets/imagenes/ban.svg"></ion-button>
+                <label style="margin-top: 0.5rem;">Para cambiar solo el Nombre no coloque  "Clave Nueva". Para cambiar la clave debe colocar la "Clave Nueva" y dejar el nombre actual. Puedes cambiar la clave y el nombre al mismo tiempo</label>
+
+          </div>
+
+          <ion-button *ngIf="!editando" (click)="Editar()" fill="outline" id="btn_editar" ><img width="25" src="../../../assets/imagenes/pen.svg" ></ion-button>
+
+        </ion-card-content>
+
+      </ion-card>
+
+    </div>
+  </div>
+</ion-content>

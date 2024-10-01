@@ -133,6 +133,22 @@ export class DataBaseService {
     return data
   }
 
+  ModificarUsuario(usuario : Usuario){
+    let ok = true
+    const coleccion = collection(this.firestore,`usuarios`)
+    const documento = doc(coleccion,usuario.uid);
+    let obj = JSON.parse(JSON.stringify(usuario));
+    let rt = updateDoc(documento,obj).
+    then((val) =>{
+      console.log(val)
+    }).catch((err) => {
+      console.log(err)
+      ok = false
+    });
+
+    return ok
+  }
+
   //#endregion
   
   //#region Querys Evento
