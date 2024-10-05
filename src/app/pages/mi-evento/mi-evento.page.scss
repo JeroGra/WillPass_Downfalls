@@ -123,10 +123,26 @@ ion-content.buscando{
 
 #qr_card{
     background-color: transparent; 
-    border:#F87983 solid 0.2rem; width: 15rem; height: 15rem;
+    border:#F87983 solid 0.2rem; 
+    width: 20rem; 
+    height: 20rem;
     margin-left: auto;
     margin-right: auto;
     border-radius: 20%;
+}
+
+#crad_mensaje_validacion{
+    background-color: transparent;
+    color: #666666;
+    font-size: medium;
+    text-align: center;
+    border:#6666667c dotted 0.2rem; 
+    width: 90%; 
+    height: 10rem;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 5rem;
+    padding-top: 3.5rem;
 }
 
 

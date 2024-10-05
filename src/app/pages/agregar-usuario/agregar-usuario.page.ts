@@ -1,6 +1,7 @@
 import { NgIf } from '@angular/common';
 import { Component } from '@angular/core';
 import { MenuController, NavController, PickerController, ToastController } from '@ionic/angular';
+import { Sesion } from 'src/app/entities/sesion';
 import { Usuario } from 'src/app/entities/usuario';
 import { DataBaseService } from 'src/app/services/data-base.service';
 
@@ -18,9 +19,14 @@ export class AgregarUsuarioPage  {
   // cambia a text para poder ver la clave
   tipo_clave = "password"
   permiso = "Sin Permiso Asignado"
+  mi_sesion : Sesion = new Sesion
 
   constructor(private toastController:ToastController, private db : DataBaseService, private ruta : NavController, private menuCtrl: MenuController, private pickerCtrl : PickerController) {
     this.usuario = db.ObtenerMiUsuarioLocalstorage()
+    let rt = db.ObtenerUltimaSesion()
+    if(rt != null){
+      this.mi_sesion = rt as Sesion
+    }
    }
 
    async presentToast(position:"top" | "middle", message = "", color = "danger"){
@@ -171,6 +177,8 @@ export class AgregarUsuarioPage  {
   }
 
   Volver(){
+    this.mi_sesion.seccion = ""
+    this.db.RecordarUltimaSesion(this.mi_sesion)
     this.ruta.navigateRoot(['home'])
   }
 

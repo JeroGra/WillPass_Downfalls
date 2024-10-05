@@ -1,3 +1,4 @@
+import { ThisReceiver } from '@angular/compiler';
 import { Component } from '@angular/core';
 import { NavController, ToastController } from '@ionic/angular';
 import { Usuario } from 'src/app/entities/usuario';
@@ -14,8 +15,24 @@ export class LoginPage {
   clave = ""
   loading = false
   ocultar_footer = false
-  
-  constructor(private toastController:ToastController, private db : DataBaseService, private ruta : NavController) { }
+  recordar = false
+
+  constructor(private toastController:ToastController, private db : DataBaseService, private ruta : NavController) {
+    
+    let rt = db.ObtenerRecordarUsuario()
+    if(rt != null){
+      this.recordar = rt.recordar
+      if(this.recordar){
+        this.loading = true
+        db.TraerUsuarioUid(rt.uid_usuario).then((user : Usuario) =>{
+          this.nombre = user.nombre
+          this.clave = user.clave
+        }).finally(()=>{
+          this.loading = false
+        })
+      }
+    } 
+   }
 
   async presentToast(position:"top" | "middle", message = "", color = "danger"){
     const toast = await this.toastController.create({
@@ -29,13 +46,21 @@ export class LoginPage {
     await toast.present();
   }
 
+  CheckChange(event : any){
+    if(!this.recordar){
+      this.db.BorrarRecordarUsuario()
+    } 
+  }
+
   Login(){
-    
     if(this.nombre != "" && this.clave != ""){
       this.loading = true
       this.db.TraerUsuariosPorNombre(this.nombre).then((usuario : Usuario) => {
         if(usuario.clave === this.clave){
           this.db.GuardarUsuarioLocalstorage(usuario)
+          if(this.recordar){
+              this.db.RecordarUsuario(usuario.uid)
+          }
           this.loading = false
           this.presentToast("top","Bienvenido/a "+usuario.nombre,"success")
           

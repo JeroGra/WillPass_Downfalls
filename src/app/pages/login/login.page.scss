@@ -21,3 +21,14 @@
     --color:#A28BF7;
 }
 
+#check_recordarme{
+    float: left;
+    --border-radius:1rem;
+    --border-color:#A28BF7;
+    --border-color-checked:#F87983;
+    --checkbox-background:transparent;
+    --checkbox-background-checked:transparent;
+    --checkmark-color:#F87983;
+    --size:1.4rem;
+}
+

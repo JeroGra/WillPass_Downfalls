@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, ToastController } from '@ionic/angular';
+import { Sesion } from 'src/app/entities/sesion';
 import { Usuario } from 'src/app/entities/usuario';
 import { DataBaseService } from 'src/app/services/data-base.service';
 
@@ -16,12 +17,17 @@ export class PerfilPage  {
   u_nombre = ""
   u_clave = ""
   u_clave_nueva = ""
+  mi_sesion : Sesion = new Sesion
 
   constructor(private toastController:ToastController, private db : DataBaseService, private ruta : NavController) {
      this.user_visible = this.db.ObtenerMiUsuarioLocalstorage()
      this.db.TraerUsuariosPorNombre(this.user_visible.nombre).then((user : Usuario) =>{
       this.usuario = user
       this.u_nombre = user.nombre
+      let rt = db.ObtenerUltimaSesion()
+      if(rt != null){
+        this.mi_sesion = rt as Sesion
+      }
     })
    }
 
@@ -60,6 +66,7 @@ export class PerfilPage  {
             let ok = this.db.ModificarUsuario(new_usr)
             if(ok){ this.presentToast("top","Usuario Modificado","success") } else { this.presentToast("top","No se pudo Modificar. Error Con la Conexion","danger") }
             this.db.GuardarUsuarioLocalstorage(new_usr)
+            this.db.BorrarRecordarUsuario()
             this.usuario = new_usr
             this.user_visible = new_usr
             this.Editar()
@@ -109,6 +116,8 @@ export class PerfilPage  {
   }
 
   Volver(){
+    this.mi_sesion.seccion = ""
+    this.db.RecordarUltimaSesion(this.mi_sesion)
     this.ruta.navigateRoot(["home"])
   }
 

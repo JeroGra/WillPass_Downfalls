@@ -6,6 +6,7 @@ import { Firestore, documentId, updateDoc, } from '@angular/fire/firestore';
 import { getDocs,setDoc,doc,addDoc,collection,deleteDoc,query,where,orderBy } from 'firebase/firestore';
 import { collectionData } from 'rxfire/firestore';
 import { Usuario } from '../entities/usuario';
+import { Sesion } from '../entities/sesion';
 
 @Injectable({
   providedIn: 'root'
@@ -120,11 +121,56 @@ export class DataBaseService {
     localStorage.removeItem("mi_usuario")
   }
 
+  // RECORDAR USUARIO
+
+  RecordarUsuario(uid_usuario : string){
+    localStorage.setItem("recordar_usuario",JSON.stringify({recordar:true,uid_usuario:uid_usuario}))
+  }
+
+  ObtenerRecordarUsuario(){
+    let rt = JSON.parse(localStorage.getItem("recordar_usuario") as string) 
+    if(rt != null) {
+      return rt
+    } 
+    return null
+  }
+
+  BorrarRecordarUsuario(){
+    localStorage.removeItem("recordar_usuario")
+  }
+
+  RecordarUltimaSesion(sesion : Sesion){
+    localStorage.setItem("ultima_sesion",JSON.stringify(sesion))
+  }
+
+  ObtenerUltimaSesion(){
+    let ultima_sesion : Sesion = JSON.parse(localStorage.getItem("ultima_sesion") as string) 
+    if(ultima_sesion != null) {
+      return ultima_sesion
+    } 
+    return null
+  }
+
+  BorrarUltimaSesion(){
+    localStorage.removeItem("ultima_sesion")
+  }
+
   //#region Query Usuario
 
   async TraerUsuariosPorNombre(nombre : string) {
     let data:any;
     const q = query(collection(this.firestore, 'usuarios'), where("nombre", "==", nombre));
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      data = JSON.parse(JSON.stringify(doc.data()))
+    });
+
+    return data
+  }
+
+  async TraerUsuarioUid(uid : string) {
+    let data:any;
+    const q = query(collection(this.firestore, 'usuarios'), where("uid", "==", uid));
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
       data = JSON.parse(JSON.stringify(doc.data()))

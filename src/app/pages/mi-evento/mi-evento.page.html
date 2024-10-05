@@ -176,10 +176,13 @@
           [maxlength]="8"
           [min]="0000001"
           [max]="99999999"
-          style="margin-top: 1rem;"
+          style="margin-top: 1rem;height: 5rem;"
           ></ion-input>
         
-          <ion-button id="btn_buscar" fill="solid" size="medium" (click)="Buscar()">Buscar</ion-button>
+          <ion-button id="btn_buscar" fill="solid" size="medium" style="height: 4rem;" (click)="Buscar()">Buscar</ion-button>
+          <ion-card id="crad_mensaje_validacion">
+            <label>Si no funciona el lector QR buscar Entrada Poniendo el DNI del cliente</label>
+          </ion-card>
         </div>
         
         <div *ngIf="buscando && !existe && !no_existe">

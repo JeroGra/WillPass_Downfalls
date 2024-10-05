@@ -11,6 +11,7 @@ import { ApexChart, ApexNonAxisChartSeries, ApexResponsive, ApexTitleSubtitle, A
   ChartComponent, ApexAxisChartSeries, ApexDataLabels, ApexPlotOptions, ApexYAxis, ApexGrid, 
   ApexXAxis, ApexLegend } from "ng-apexcharts";
 import { Usuario } from 'src/app/entities/usuario';
+import { Sesion } from 'src/app/entities/sesion';
 
 export type ChartOptionsEntradas = {
   series: ApexNonAxisChartSeries;
@@ -93,6 +94,7 @@ export class MiEventoPage implements OnDestroy {
 
   subPlantillas = new Subscription
   subEntradas = new Subscription
+  mi_sesion : Sesion = new Sesion
 
   constructor(private pickerCtrl: PickerController, private toastController : ToastController, 
     private bd : DataBaseService, private ruta : NavController, public qr : QrService) {
@@ -108,6 +110,20 @@ export class MiEventoPage implements OnDestroy {
     this.subEntradas = this.bd.ObtenerEntradasObservable(this.mi_evento.uid).subscribe((entradas : any) => {
       this.todas_las_entradas = entradas as Entrada[]
       this.loading = false
+      let rt = this.bd.ObtenerUltimaSesion()
+      if(rt != null){
+        this.mi_sesion = rt as Sesion
+        switch(this.mi_sesion.seccion){
+          case'Validando':
+            this.ValidarEntradas()
+          break;
+
+          case'ListadoEntradas':
+            this.ListarEntradas()
+          break;
+        }
+      }
+        
     })
   }
 
@@ -291,6 +307,8 @@ export class MiEventoPage implements OnDestroy {
   //#region Validacion de Entrada
   ValidarEntradas(){
     this.validando_entradas = true
+    this.mi_sesion.seccion = "Validando"
+    this.bd.RecordarUltimaSesion(this.mi_sesion)
   }
 
   CancelarValidacion(){
@@ -299,6 +317,8 @@ export class MiEventoPage implements OnDestroy {
     if(this.qr.scan){
       this.qr.StopScan()
     }
+    this.mi_sesion.seccion = ""
+    this.bd.RecordarUltimaSesion(this.mi_sesion)
   }
 
   Flashlight(){
@@ -396,8 +416,12 @@ export class MiEventoPage implements OnDestroy {
   ListarEntradas(){
     if(!this.listarEntradas){
       this.listarEntradas = true
+      this.mi_sesion.seccion = "ListadoEntradas"
+      this.bd.RecordarUltimaSesion(this.mi_sesion)
     } else {
       this.listarEntradas = false
+      this.mi_sesion.seccion = ""
+      this.bd.RecordarUltimaSesion(this.mi_sesion)
     }
   }
 
@@ -622,6 +646,7 @@ export class MiEventoPage implements OnDestroy {
     this.plantillas = []
     this.todas_las_entradas = []
     this.bd.BorrarEventoLocalstorage()
+    this.bd.BorrarUltimaSesion()
     this.ruta.navigateRoot(['/home'])
   }
 

@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { MenuController, NavController, ToastController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { Evento } from 'src/app/entities/evento';
+import { Sesion } from 'src/app/entities/sesion';
 import { Usuario } from 'src/app/entities/usuario';
 import { DataBaseService } from 'src/app/services/data-base.service';
 
@@ -29,6 +30,7 @@ export class HomePage implements OnDestroy {
   errror_hora = ""
 
   loading = false
+  mi_sesion : Sesion = new Sesion
 
   constructor(private toastController:ToastController, private db : DataBaseService, private ruta : NavController, private menuCtrl: MenuController) {
     this.loading = true
@@ -36,8 +38,34 @@ export class HomePage implements OnDestroy {
     this.Subcriber = this.db.ObtenerEventosObservableUidUsuario(this.usuario.uid_organizador).subscribe((eventos : any) => {
       this.eventos = eventos as Evento[]
       this.loading = false
-    })
-   }
+      let rt = db.ObtenerUltimaSesion()
+      if(rt != null){
+        this.mi_sesion = rt as Sesion
+        if(this.mi_sesion.enEvento){
+          this.SelecEvento(this.mi_sesion.evento)
+        } else {
+            switch(this.mi_sesion.seccion)
+            {
+             case'Perfil':
+              this.Perfil()
+             break 
+  
+             case'AgregarUsuarios':
+              this.AgregarUsuarios()
+             break 
+  
+             case'Usuarios':
+              this.Usuarios()
+             break 
+  
+             case'RendimietnoEventos':
+              this.RendimietnoEventos()
+             break 
+            }
+        }
+       }
+      })
+    }
 
   async presentToast(position:"top" | "middle", message = "", color = "danger"){
     const toast = await this.toastController.create({
@@ -143,12 +171,16 @@ export class HomePage implements OnDestroy {
   Login(){
     this.eventos = []
     this.usuario = new Usuario
+    this.db.BorrarUltimaSesion()
     this.db.BorrarUsuarioLocalstorage()
     this.ruta.navigateRoot(['login'])
   }
 
   SelecEvento(evento : Evento){
     console.log(evento)
+    this.mi_sesion.enEvento = true
+    this.mi_sesion.evento = evento
+    this.db.RecordarUltimaSesion(this.mi_sesion)
     this.db.GuardarEventoSeleccionadoLocalstorage(evento)
     this.ruta.navigateRoot(['evento'])
   }
@@ -206,18 +238,30 @@ export class HomePage implements OnDestroy {
   }
 
   Perfil(){
+    this.mi_sesion.enEvento = false
+    this.mi_sesion.seccion = "Perfil"
+    this.db.RecordarUltimaSesion(this.mi_sesion)
     this.ruta.navigateRoot(['perfil'])
   }
 
   AgregarUsuarios(){
+    this.mi_sesion.enEvento = false
+    this.mi_sesion.seccion = "AgregarUsuarios"
+    this.db.RecordarUltimaSesion(this.mi_sesion)
     this.ruta.navigateRoot(['agregar-usuario'])
   }
 
   Usuarios(){
+    this.mi_sesion.enEvento = false
+    this.mi_sesion.seccion = "Usuarios"
+    this.db.RecordarUltimaSesion(this.mi_sesion)
     this.ruta.navigateRoot(['usuarios'])
   }
 
   RendimietnoEventos(){
+    this.mi_sesion.enEvento = false
+    this.mi_sesion.seccion = "RendimietnoEventos"
+    this.db.RecordarUltimaSesion(this.mi_sesion)
     this.ruta.navigateRoot(['rendimiento-eventos'])
   }
 

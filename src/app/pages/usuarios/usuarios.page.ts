@@ -1,6 +1,7 @@
 import { Component, OnDestroy } from '@angular/core';
 import { MenuController, NavController, PickerController, ToastController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
+import { Sesion } from 'src/app/entities/sesion';
 import { Usuario } from 'src/app/entities/usuario';
 import { DataBaseService } from 'src/app/services/data-base.service';
 
@@ -18,6 +19,8 @@ export class UsuariosPage implements OnDestroy {
   edicion_usuario = false
   usuario_select = new Usuario
   permiso = ""
+  mi_sesion : Sesion = new Sesion
+  
   constructor(private toastController:ToastController, private db : DataBaseService, private ruta : NavController, private menuCtrl: MenuController,
      private pickerCtrl : PickerController) {
       this.loading = true
@@ -37,6 +40,10 @@ export class UsuariosPage implements OnDestroy {
           }
         }
         this.usuarios = arrUsr
+        let rt = db.ObtenerUltimaSesion()
+        if(rt != null){
+          this.mi_sesion = rt as Sesion
+        }
         this.loading = false
       })
   }
@@ -201,6 +208,8 @@ export class UsuariosPage implements OnDestroy {
   }
 
   Volver(){
+    this.mi_sesion.seccion = ""
+    this.db.RecordarUltimaSesion(this.mi_sesion)
     this.ruta.navigateRoot(['home'])
   }
 
