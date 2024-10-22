@@ -7,13 +7,15 @@ import { IonicModule } from '@ionic/angular';
 import { RendimientoEventosPageRoutingModule } from './rendimiento-eventos-routing.module';
 
 import { RendimientoEventosPage } from './rendimiento-eventos.page';
+import { NgApexchartsModule } from 'ng-apexcharts';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    RendimientoEventosPageRoutingModule
+    RendimientoEventosPageRoutingModule,
+    NgApexchartsModule
   ],
   declarations: [RendimientoEventosPage]
 })

@@ -1,13 +1,118 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>rendimiento-eventos</ion-title>
+    <ion-button  (click)="Volver()"  id="btn_volver" fill="outline" size="medium" ><img src="../../../assets/imagenes/arrow-bar-left.svg"></ion-button>
+    <ion-title  style="text-align: center; color: #F87983; font-size: 1.35rem; font-weight: bolder;margin-right: 2rem; margin-top: 1rem;">Rendimiento Eventos</ion-title>
+
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">rendimiento-eventos</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <div class="container text-center">
+    <div class="row justify-content-md-center row-cosl-1" *ngIf="!cargando"> 
+
+      <!-- VENTAS -->
+      <div class="card card-grafico card-ventas">
+        <div class="card-body">
+          <h5 class="card-title" style="font-weight: bolder;">Ventas</h5>
+          <h6 class="card-subtitle mb-2" style="font-weight: bold;">Cantidad de Ventas Por Evento</h6>
+
+          <div class="tabla">
+
+            <div class="container text-center">
+              <div class="row">
+                <div class="col" style="border-right: 0.1rem solid #292929; border-bottom: 0.1rem solid #292929;">
+                  Evento
+                </div>
+                <div class="col" style=" border-bottom: 0.1rem solid #292929;">
+                  Ventas
+                </div>
+              </div>
+
+              <div class="row" *ngFor="let ventas of arr_ventas">
+                <div class="col col-evento">
+                  {{ventas.nombre_evento}}
+                </div>
+                <div class="col col-dato">
+                  {{ventas.entradas_vendidas}}
+                </div>
+              </div>
+
+            </div>
+            
+          </div>
+
+        </div>
+      </div>
+
+
+      <!-- GENERADO -->
+      <div class="card card-grafico card-ganancias">
+        <div class="card-body">
+          <h5 class="card-title" style="font-weight: bolder;">Ganancias Generadas</h5>
+          <h6 class="card-subtitle mb-2" style="font-weight: bold;">Total Generado por Evento</h6>
+
+          <div class="tabla">
+
+            <div class="container text-center">
+              <div class="row">
+                <div class="col" style="border-right: 0.1rem solid #292929; border-bottom: 0.1rem solid #292929;">
+                  Evento
+                </div>
+                <div class="col" style=" border-bottom: 0.1rem solid #292929;">
+                  Generado
+                </div>
+              </div>
+
+              <div class="row" *ngFor="let generado of arr_generado">
+                <div class="col col-evento" style="background-color:#f56470 ;">
+                  {{generado.nombre_evento}}
+                </div>
+                <div class="col col-dato" style="background-color:#f56470 ;">
+                  ${{generado.total_recaudado}}
+                </div>
+              </div>
+
+            </div>
+            
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ASISTENCIAS -->
+      <div class="card card-grafico card-asistencias">
+        <div class="card-body">
+          <h5 class="card-title" style="font-weight: bolder;">Asistencias</h5>
+          <h6 class="card-subtitle mb-2" style="font-weight: bold;">Asistencias totales por Evento</h6>
+
+          <div class="tabla">
+
+            <div class="container text-center">
+              <div class="row">
+                <div class="col" style="border-right: 0.1rem solid #292929; border-bottom: 0.1rem solid #292929;">
+                  Evento
+                </div>
+                <div class="col" style=" border-bottom: 0.1rem solid #292929;">
+                  Asistencias
+                </div>
+              </div>
+
+              <div class="row" *ngFor="let asistencias of arr_asistencias">
+                <div class="col col-evento" style="background-color:#5593f1 ;">
+                  {{asistencias.nombre_evento}}
+                </div>
+                <div class="col col-dato" style="background-color:#5593f1 ;">
+                  {{asistencias.asistencias}}
+                </div>
+              </div>
+
+            </div>
+            
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
 </ion-content>

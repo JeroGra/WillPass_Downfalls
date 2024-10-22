@@ -1,0 +1,65 @@
+#btn_volver{
+    --border-color:  transparent; 
+    --color:#F87983;
+    --border-width: 0rem;
+    float: left;
+    height: 3rem;
+}
+
+.card-grafico{
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    font-weight: bolder;
+    font-size: larger;
+    color: #292929;
+}
+
+.card-ventas{
+    width: 95%;
+    margin-top: 0.5rem ;
+    color: #292929;
+    background-color: #A28BF7;
+}
+
+.card-asistencias{
+    width: 95%;
+    margin-top: 0.5rem ;
+    color: #292929;
+    background-color: #8bb6f7;
+}
+
+.card-ganancias{
+    width: 95%;
+    margin-top: 0.5rem ;
+    color: #292929;
+    background-color: #F87983;
+}
+
+.tabla{
+    padding: 0;
+    overflow: scroll;
+    max-height: 10rem;
+    min-height: 6rem;
+    width: 99%;
+    border: 0.1rem solid #292929;
+    border-radius: 2%;
+}
+
+.tabla::-webkit-scrollbar{
+    display: none;
+}
+
+.col-evento{
+    border-right: 0.1rem solid #292929;
+    border-bottom: 0.1rem solid #292929;
+    background-color: #9075f1;
+    font-size: small;
+}
+
+.col-dato{
+    border-bottom: 0.1rem solid #292929;
+     background-color: #9075f1;
+     font-size: medium;
+}
+

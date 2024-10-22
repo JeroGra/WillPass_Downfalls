@@ -7,6 +7,7 @@ import { getDocs,setDoc,doc,addDoc,collection,deleteDoc,query,where,orderBy } fr
 import { collectionData } from 'rxfire/firestore';
 import { Usuario } from '../entities/usuario';
 import { Sesion } from '../entities/sesion';
+import { Informacion_Evento } from '../entities/informacion_evento';
 
 @Injectable({
   providedIn: 'root'
@@ -241,7 +242,13 @@ export class DataBaseService {
     const uid = documento.id;
     evento.uid = uid
     setDoc(documento, JSON.parse(JSON.stringify(evento))).then((val) =>{
-      
+      let info_evento = new Informacion_Evento
+      info_evento.fecha = evento.fecha
+      info_evento.hora = evento.hora
+      info_evento.nombre_evento = evento.nombre
+      info_evento.uid_organizador = evento.uid_organizador
+      info_evento.uid_evento = evento.uid
+      ok = this.AgregarInformacionEvento(info_evento)
     }).catch((err) => {
       console.log(err)
       ok = false
@@ -271,6 +278,58 @@ export class DataBaseService {
     return ok
   }
 
+  private AgregarInformacionEvento(informacion_evento : Informacion_Evento){
+    let ok = true
+    const coleccion = collection(this.firestore, `${informacion_evento.uid_organizador}_rendimiento_eventos`)
+    const documento = doc(coleccion);
+    const uid = documento.id;
+    informacion_evento.uid = uid
+    setDoc(documento, JSON.parse(JSON.stringify(informacion_evento))).then((val) =>{
+      
+    }).catch((err) => {
+      console.log(err)
+      ok = false
+    });
+
+    return ok
+  }
+
+  ModificarInformacioEvento(informacion_Evento : Informacion_Evento){
+    let ok = true
+    const coleccion = collection(this.firestore, `${informacion_Evento.uid_organizador}_rendimiento_eventos`)
+    const documento = doc(coleccion,informacion_Evento.uid);
+    let obj = JSON.parse(JSON.stringify(informacion_Evento));
+    let rt = updateDoc(documento,obj).
+    then((val) =>{
+      console.log(val)
+    }).catch((err) => {
+      console.log(err)
+      ok = false
+    });
+
+    return ok
+  }
+
+  ObtenerInformacionEventosObservable(uid_organizador : string){
+    const q = query(collection(this.firestore,`${uid_organizador}_rendimiento_eventos`));
+    return collectionData(q)
+  }
+
+  async TraerInformacionEventoPorUidEvento(uid_evento : string, uid_organizador : string) {
+    let data:any;
+    const q = query(collection(this.firestore,`${uid_organizador}_rendimiento_eventos`),where("uid_evento", "==", uid_evento));
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      data = JSON.parse(JSON.stringify(doc.data()))
+    });
+
+    return data
+  }
+
+    TraerInformacionEventoPorUidEventoObservable(uid_evento : string, uid_organizador : string) {
+    const q = query(collection(this.firestore,`${uid_organizador}_rendimiento_eventos`),where("uid_evento", "==", uid_evento));
+    return collectionData(q)
+  }
 
   //#endregion
 

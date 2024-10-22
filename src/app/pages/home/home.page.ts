@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { MenuController, NavController, ToastController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { Evento } from 'src/app/entities/evento';
+import { Informacion_Evento } from 'src/app/entities/informacion_evento';
 import { Sesion } from 'src/app/entities/sesion';
 import { Usuario } from 'src/app/entities/usuario';
 import { DataBaseService } from 'src/app/services/data-base.service';
@@ -31,6 +32,7 @@ export class HomePage implements OnDestroy {
 
   loading = false
   mi_sesion : Sesion = new Sesion
+  info_evento_select : Informacion_Evento = new Informacion_Evento
 
   constructor(private toastController:ToastController, private db : DataBaseService, private ruta : NavController, private menuCtrl: MenuController) {
     this.loading = true
@@ -166,6 +168,7 @@ export class HomePage implements OnDestroy {
     this.hora_evento = undefined
     this.modificando_evento = false
     this.evento_select = new Evento
+    this.info_evento_select = new Informacion_Evento
   }
 
   Login(){
@@ -191,6 +194,9 @@ export class HomePage implements OnDestroy {
     this.nombre_evento = evento.nombre
     this.fecha_evento = evento.fecha
     this.hora_evento = evento.hora
+    this.db.TraerInformacionEventoPorUidEvento(evento.uid,evento.uid_organizador).then((info_evento : Informacion_Evento) => {
+      this.info_evento_select = info_evento
+    })
   }
 
   ModificarEvento(){
@@ -223,9 +229,17 @@ export class HomePage implements OnDestroy {
         this.evento_select.nombre = this.nombre_evento
         this.evento_select.fecha = this.fecha_evento
         this.evento_select.hora = this.hora_evento
+
+        this.info_evento_select.nombre_evento = this.nombre_evento
+        this.info_evento_select.fecha = this.fecha_evento
+        this.info_evento_select.hora = this.hora_evento
+
         // Lo sube a la bd
         let ok = this.db.ModificarEvento(this.evento_select)
-        if(ok){ this.presentToast("top","Evento Modificado","success") } else { this.presentToast("top","No se pudo Crear. Error Con la Conexion","danger") }
+        if(ok){ this.presentToast("top","Evento Modificado","success") 
+          this.db.ModificarInformacioEvento(this.info_evento_select)
+        } else { this.presentToast("top","No se pudo Crear. Error Con la Conexion","danger") }
+      
         this.Volver()
       } else {
         this.presentToast("top","No hay ningun dato cambiado","warning")

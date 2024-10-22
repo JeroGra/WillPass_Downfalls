@@ -12,6 +12,7 @@ import { ApexChart, ApexNonAxisChartSeries, ApexResponsive, ApexTitleSubtitle, A
   ApexXAxis, ApexLegend } from "ng-apexcharts";
 import { Usuario } from 'src/app/entities/usuario';
 import { Sesion } from 'src/app/entities/sesion';
+import { Informacion_Evento } from 'src/app/entities/informacion_evento';
 
 export type ChartOptionsEntradas = {
   series: ApexNonAxisChartSeries;
@@ -95,12 +96,16 @@ export class MiEventoPage implements OnDestroy {
   subPlantillas = new Subscription
   subEntradas = new Subscription
   mi_sesion : Sesion = new Sesion
+  informacion_evento = new Informacion_Evento
 
   constructor(private pickerCtrl: PickerController, private toastController : ToastController, 
     private bd : DataBaseService, private ruta : NavController, public qr : QrService) {
       this.mi_evento = this.bd.ObtenerMiEventoLocalstorage()
       this.usuario = this.bd.ObtenerMiUsuarioLocalstorage()
-      this.ObtenerPlantillasEntradas()
+      this.bd.TraerInformacionEventoPorUidEventoObservable(this.mi_evento.uid, this.usuario.uid_organizador).subscribe((info : any) => {
+        this.informacion_evento = info[0] as Informacion_Evento
+        this.ObtenerPlantillasEntradas()
+      })
      }
 
   ObtenerPlantillasEntradas(){
@@ -300,7 +305,11 @@ export class MiEventoPage implements OnDestroy {
     this.loading = true
     let ok = this.bd.AgregarEntrada(entrada,this.plantilla_selecionada,this.mi_evento.uid)
     this.loading = false
-    if(ok){ this.presentToast("top","Entrada Agregada!","success") }else{ this.presentToast("top","Error con la conexion","danger") } 
+    if(ok){ this.presentToast("top","Entrada Agregada!","success")
+      this.informacion_evento.entradas_vendidas += 1
+      this.informacion_evento.total_recaudado += this.plantilla_selecionada.valor
+      this.bd.ModificarInformacioEvento(this.informacion_evento)
+     }else{ this.presentToast("top","Error con la conexion","danger") } 
   }
   //#endregion
 
@@ -381,6 +390,8 @@ export class MiEventoPage implements OnDestroy {
       this.existe = true
       if(!this.entrada_validada.asistio_cliente) {
           let ok = this.bd.CambiarAsistenciaEntrada(this.entrada_validada.uid,this.mi_evento.uid)
+          this.informacion_evento.asistencias += 1
+          this.bd.ModificarInformacioEvento(this.informacion_evento)
           if(!ok){ this.presentToast("top","Error con la conexion","danger") }
       }
     } else {
@@ -630,7 +641,14 @@ export class MiEventoPage implements OnDestroy {
     })
     let ok = this.bd.EliminarEntrada(entrada.uid,mi_plantilla,this.mi_evento.uid)
     this.loading = false
-    if(ok){ this.presentToast("top","Se elimino correctamente","success") }else{ this.presentToast("top","Error con la conexion","danger") } 
+    if(ok){ this.presentToast("top","Se elimino correctamente","success") 
+      this.informacion_evento.entradas_vendidas -= 1
+      this.informacion_evento.total_recaudado -= mi_plantilla.valor
+      if(entrada.asistio_cliente){
+        this.informacion_evento.asistencias -= 1
+      }
+      this.bd.ModificarInformacioEvento(this.informacion_evento)
+    }else{ this.presentToast("top","Error con la conexion","danger") } 
   }
 
   EliminarPlantilla(plantilla : Plantilla_Entrada){
