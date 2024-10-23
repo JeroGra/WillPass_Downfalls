@@ -22,6 +22,11 @@ export class RendimientoEventosPage  {
   arr_ventas : Array<Informacion_Evento> = []
   arr_generado : Array<Informacion_Evento> = []
   arr_asistencias : Array<Informacion_Evento> = []
+  arr_crecimiento : Array<Informacion_Evento> = []
+  crecimiento : any[] = []
+  total_vendido = 0
+  total_asistencias = 0
+  total_generado = 0
 
   constructor(private toastController:ToastController, private db : DataBaseService, private ruta : NavController) {
       this.user = this.db.ObtenerMiUsuarioLocalstorage()
@@ -31,37 +36,55 @@ export class RendimientoEventosPage  {
         this.arr_ventas = []
         this.arr_generado = []
         this.arr_asistencias = []
+        this.arr_crecimiento = []
+        this.crecimiento = []
+        this.total_vendido = 0
+        this.total_asistencias = 0
+        this.total_generado = 0
 
         this.info_eventos.forEach((inf : Informacion_Evento) => {
           this.arr_ventas.push(inf)
           this.arr_generado.push(inf)
           this.arr_asistencias.push(inf)
+          this.arr_crecimiento.push(inf)
+          this.total_vendido += inf.entradas_vendidas
+          this.total_asistencias += inf.asistencias
+          this.total_generado += inf.total_recaudado
         });
 
         this.arr_ventas.sort((a, b) => {
-          // Convertir las fechas a objetos Date para compararlas
-          const a_entradas = a.entradas_vendidas
-          const b_entradas = b.entradas_vendidas;
+     
+          const a_ventas = a.entradas_vendidas
+          const b_ventas = b.entradas_vendidas;
         
-          return a_entradas - b_entradas; // Ordena en orden ascendente (más antiguo a más reciente)
+          return a_ventas + b_ventas; 
         });
 
         this.arr_generado.sort((a, b) => {
-          // Convertir las fechas a objetos Date para compararlas
-          const a_entradas = a.total_recaudado
-          const b_entradas = b.total_recaudado;
+       
+          const a_generado = a.total_recaudado
+          const b_generado = b.total_recaudado;
         
-          return a_entradas - b_entradas; // Ordena en orden ascendente (más antiguo a más reciente)
+          return a_generado + b_generado; 
         });
 
         this.arr_asistencias.sort((a, b) => {
-          // Convertir las fechas a objetos Date para compararlas
-          const a_entradas = a.asistencias
-          const b_entradas = b.asistencias;
+   
+          const a_asistencias = a.asistencias
+          const b_asistencias = b.asistencias;
         
-          return a_entradas - b_entradas; // Ordena en orden ascendente (más antiguo a más reciente)
+          return a_asistencias + b_asistencias; 
         });
 
+        this.arr_crecimiento.sort((a, b) => {
+          // Convertir las fechas a objetos Date para compararlas
+          const a_fecha = new Date(a.fecha).getTime()
+          const b_fecha = new Date(b.fecha).getTime()
+        
+          return a_fecha - b_fecha; // Ordena en orden ascendente (más antiguo a más reciente)
+        });
+        
+        this.CalcularVentas()
 
         let rt = db.ObtenerUltimaSesion()
         if(rt != null){
@@ -71,6 +94,37 @@ export class RendimientoEventosPage  {
         this.cargando = false
 
       })
+  }
+
+  CalcularVentas(){
+    this.arr_crecimiento.forEach((objeto, index) => {
+      let objCrecimiento = {
+        crecimiento: "---",
+        nombre_evento:""
+      }
+
+      objCrecimiento.nombre_evento = objeto.nombre_evento
+
+      if (index > 0) { // No calculamos crecimiento para el primer elemento, ya que no tiene anterior
+        const ventasAnterior =  this.arr_crecimiento[index - 1].entradas_vendidas;
+        const ventasActual = objeto.entradas_vendidas;
+        const crecimiento = this.CalcularCrecimiento(ventasAnterior, ventasActual);
+        
+        objCrecimiento.crecimiento = crecimiento.toFixed(2)
+      }
+
+      this.crecimiento.push(objCrecimiento)
+
+    });
+  }
+
+
+
+  CalcularCrecimiento(ventasAnterior: number, ventasActual: number): number {
+    if (ventasAnterior === 0) {
+      return 100; // Si las ventas anteriores son 0, consideramos un crecimiento del 100%.
+    }
+    return ((ventasActual - ventasAnterior) / ventasAnterior) * 100;
   }
 
   async presentToast(position:"top" | "middle", message = "", color = "danger"){

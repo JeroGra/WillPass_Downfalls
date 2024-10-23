@@ -113,6 +113,46 @@
         </div>
       </div>
 
+      <!-- Crecimiento -->
+      <div class="card card-grafico card-crecimiento">
+        <div class="card-body">
+          <h5 class="card-title" style="font-weight: bolder;">Crecimiento</h5>
+          <h6 class="card-subtitle mb-2" style="font-weight: bold;">Crecimiento de Entradas Vendidas por Evento</h6>
+
+          <div class="tabla">
+
+            <div class="container text-center">
+              <div class="row">
+                <div class="col" style="border-right: 0.1rem solid #292929; border-bottom: 0.1rem solid #292929;">
+                  Evento
+                </div>
+                <div class="col" style=" border-bottom: 0.1rem solid #292929;">
+                  Crecimiento
+                </div>
+              </div>
+
+              <div class="row" *ngFor="let c of crecimiento">
+                <div class="col col-evento" style="background-color:#55f35d ;">
+                  {{c.nombre_evento}}
+                </div>
+                <div class="col col-dato" style="background-color:#55f35d ;">
+                  %{{c.crecimiento}}
+                </div>
+              </div>
+
+            </div>
+            
+          </div>
+
+          <br>
+
+          <h4 class="card-subtitle " style="font-weight: bold; font-size: large;">Total de Entradas Vendidas: {{total_vendido}}</h4>
+          <h4 class="card-subtitle " style="font-weight: bold; font-size: large;">Total de Asistencias: {{total_asistencias}}</h4>
+          <h4 class="card-subtitle " style="font-weight: bold; font-size: large;">Total Generado: ${{total_generado}}</h4>
+
+        </div>
+      </div>
+
     </div>
   </div>
 </ion-content>

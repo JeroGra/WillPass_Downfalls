@@ -63,6 +63,8 @@ export class MiEventoPage implements OnDestroy {
   error_nombre_plantilla = ""
   valor_plantilla = 0
   error_valor_plantilla = ""
+  cantidad_entradas_plantilla = 1
+  error_cantidad_entradas_plantilla = ""
   descripcion_plantilla = ""
   error_descripcion_plantilla = ""
   esVip = false
@@ -225,8 +227,14 @@ export class MiEventoPage implements OnDestroy {
       this.error_valor_plantilla = "No se permiten valores menores a 0"
     }
 
-    if(this.error_nombre_plantilla == "" && this.error_descripcion_plantilla == "" && this.error_valor_plantilla == ""){
-      let plantilla = new Plantilla_Entrada(this.nombre_plantilla,this.esVip,this.esPuerta,this.valor_plantilla,this.descripcion_plantilla)
+    if(this.cantidad_entradas_plantilla >= 1){
+      this.error_valor_plantilla = ""
+    } else {
+      this.error_valor_plantilla = "No se permiten cantidades menores a 1"
+    }
+
+    if(this.error_nombre_plantilla == "" && this.error_descripcion_plantilla == "" && this.error_valor_plantilla == "" && this.error_valor_plantilla == ""){
+      let plantilla = new Plantilla_Entrada(this.nombre_plantilla,this.esVip,this.esPuerta,this.valor_plantilla,this.descripcion_plantilla,this.cantidad_entradas_plantilla)
       this.loading = true
       plantilla.uid_evento = this.mi_evento.uid 
       let ok = this.bd.AgregarPlantilla(plantilla,this.mi_evento.uid)
@@ -306,7 +314,7 @@ export class MiEventoPage implements OnDestroy {
     let ok = this.bd.AgregarEntrada(entrada,this.plantilla_selecionada,this.mi_evento.uid)
     this.loading = false
     if(ok){ this.presentToast("top","Entrada Agregada!","success")
-      this.informacion_evento.entradas_vendidas += 1
+      this.informacion_evento.entradas_vendidas += entrada.cantidad_entradas
       this.informacion_evento.total_recaudado += this.plantilla_selecionada.valor
       this.bd.ModificarInformacioEvento(this.informacion_evento)
      }else{ this.presentToast("top","Error con la conexion","danger") } 
@@ -390,7 +398,7 @@ export class MiEventoPage implements OnDestroy {
       this.existe = true
       if(!this.entrada_validada.asistio_cliente) {
           let ok = this.bd.CambiarAsistenciaEntrada(this.entrada_validada.uid,this.mi_evento.uid)
-          this.informacion_evento.asistencias += 1
+          this.informacion_evento.asistencias += this.entrada_validada.cantidad_entradas
           this.bd.ModificarInformacioEvento(this.informacion_evento)
           if(!ok){ this.presentToast("top","Error con la conexion","danger") }
       }
@@ -471,28 +479,28 @@ export class MiEventoPage implements OnDestroy {
       this.total_generado += entrada.valor
 
       if(entrada.asistio_cliente){
-        this.asistencias += 1
+        this.asistencias += entrada.cantidad_entradas
       } else {
-        this.no_asistencias += 1
+        this.no_asistencias += entrada.cantidad_entradas
       }
 
       if(entrada.vip){
-        this.entradas_vip += 1
+        this.entradas_vip += entrada.cantidad_entradas
       }
 
       if(entrada.en_puerta){
-        this.entradas_en_puerta += 1
+        this.entradas_en_puerta += entrada.cantidad_entradas
       }
       
       //Comprueba si hay mas entradas vendidas en la misma fecha
 
-      let fecha_venta_actual = new Date(entrada.fecha_venta)
-      let existe = false
+      // let fecha_venta_actual = new Date(entrada.fecha_venta)
+       let existe = false
 
       for(let i = 0; i < this.ventas_por_fecha.length; i++){
-        let fecha_existente = new Date(this.ventas_por_fecha[i].fecha)
-        if(fecha_venta_actual.getTime() === fecha_existente.getTime()){
-          this.ventas_por_fecha[i].ventas += 1
+        // let fecha_existente = new Date(this.ventas_por_fecha[i].fecha)
+        if(entrada.fecha_venta === this.ventas_por_fecha[i].fecha){
+          this.ventas_por_fecha[i].ventas += entrada.cantidad_entradas
           existe = true
           break;
         }
@@ -642,10 +650,10 @@ export class MiEventoPage implements OnDestroy {
     let ok = this.bd.EliminarEntrada(entrada.uid,mi_plantilla,this.mi_evento.uid)
     this.loading = false
     if(ok){ this.presentToast("top","Se elimino correctamente","success") 
-      this.informacion_evento.entradas_vendidas -= 1
+      this.informacion_evento.entradas_vendidas -= entrada.cantidad_entradas
       this.informacion_evento.total_recaudado -= mi_plantilla.valor
       if(entrada.asistio_cliente){
-        this.informacion_evento.asistencias -= 1
+        this.informacion_evento.asistencias -= entrada.cantidad_entradas
       }
       this.bd.ModificarInformacioEvento(this.informacion_evento)
     }else{ this.presentToast("top","Error con la conexion","danger") } 

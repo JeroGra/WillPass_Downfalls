@@ -12,6 +12,7 @@ export class Entrada {
     vip : boolean = false
     en_puerta : boolean = false
     valor : number = 0
+    cantidad_entradas = 1
     
     constructor() {}
 

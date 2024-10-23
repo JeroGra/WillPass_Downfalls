@@ -373,9 +373,9 @@ export class DataBaseService {
   private ModificarEntradasVendidasPlantilla(plantilla : Plantilla_Entrada, uid_evento : string,mas : boolean = true){
     let ok = true
     if(mas){
-      plantilla.entradas_vendidas++
+      plantilla.entradas_vendidas += plantilla.cantidad_entradas
     } else {
-      plantilla.entradas_vendidas--
+      plantilla.entradas_vendidas -= plantilla.cantidad_entradas
     }
     const coleccion = collection(this.firestore,  `${uid_evento}_plantillas`)
     const documento = doc(coleccion, plantilla.uid)

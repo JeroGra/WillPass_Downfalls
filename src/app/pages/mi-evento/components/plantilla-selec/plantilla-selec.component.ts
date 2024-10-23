@@ -84,6 +84,7 @@ export class PlantillaSelecComponent  {
     entrada.vip = this.plantilla_selecionada.vip
     entrada.en_puerta = this.plantilla_selecionada.en_puerta
     entrada.valor = this.plantilla_selecionada.valor
+    entrada.cantidad_entradas = this.plantilla_selecionada.cantidad_entradas
     entrada.fecha_venta = this.getCurrentDate()
     // Agrega la entrada y suma +1 en entradas vendidas de la plantilla seleccionada
     this.SubirNuevaEntrada.emit(entrada)

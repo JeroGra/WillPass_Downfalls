@@ -95,6 +95,21 @@
           [min]="0"
           ></ion-input>
 
+          <ion-input
+          class="input_entrada"
+          name="cantidad" 
+          label="Cantidad de Entradas" 
+          label-placement="floating" 
+          fill="solid" 
+          [counter]="true"
+          placeholder="Ingrese Cantidad de Entradas"
+          type="number"
+          required="true"
+          [(ngModel)]="cantidad_entradas_plantilla"
+          [errorText]="error_cantidad_entradas_plantilla"
+          [min]="1"
+          ></ion-input>
+
 
           <ion-list style="margin-top: 1rem; background:#191919;">
 
@@ -193,10 +208,10 @@
           <label style=" margin-top: 5%; font-weight: bolder;color: #48cc36; font-size: xx-large;">{{entrada_validada.tipo_plantilla}}</label>
           <br>
           <div style="background-color: #48cc36;border-radius: 10%;height: 20rem;padding-top: 2.5rem;"><img  style="width: 15rem; height: 15rem;" src="../../../assets/imagenes/check2.svg"></div>
-          <br>
+          <label style="margin-top: 2rem;font-weight: bolder;color: #48cc36; font-size: x-large;" >Entradas = {{entrada_validada.cantidad_entradas}}</label>
           <label style="margin-top: 2rem;font-weight: bolder;color: #48cc36; font-size: x-large;" >{{entrada_validada.nombre_cliente}} {{entrada_validada.apellido_cliente}}</label>
           <br>
-          <label style="margin-top: 2rem;font-weight: bolder;color: #48cc36; font-size: x-large;">{{entrada_validada.dni}}</label>
+          <label style="margin-top: 2rem;font-weight: bolder;color: #48cc36; font-size: x-large;">DNI : {{entrada_validada.dni}}</label>
           <br>
           <ion-button id="btn_volver_validacion" style="--background:#48cc36;" fill="solid" size="medium" (click)="VolverValidacion()">Volver</ion-button>
         </div>
