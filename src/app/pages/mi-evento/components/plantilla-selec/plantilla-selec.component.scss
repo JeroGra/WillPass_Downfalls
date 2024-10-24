@@ -24,3 +24,21 @@
     --border-color:  #A28BF7; 
     --color:#A28BF7;
 }
+
+.div-acompaniante{
+    background-color: #120a31;
+    padding: 2rem;
+    border: #A28BF7 0.1rem solid;
+    border-radius: 2.5%;
+    width: 95%;
+    margin-left: 0.5rem;
+}
+
+.input_entrada_acompaniante {
+    width: 99%;
+    height: 3rem;
+    margin-top: 2rem ;
+    --background: #120a31;
+    --color: #A28BF7 ;
+    --highlight-color-focused: #A28BF7;
+}

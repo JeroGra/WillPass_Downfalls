@@ -20,101 +20,211 @@
 
     <!-- DATOS NO OBLIGATORIOS-->
     <div *ngIf="plantilla_selecionada.en_puerta">
-      <ion-input
-      class="input_entrada"
-      name="nombre" 
-      label="Nombre Cliente (opcional)" 
-      label-placement="floating" 
-      fill="solid" 
-      [maxlength]="50"
-      [counter]="true"
-      placeholder="Ingrese nombre del cliente"
-      type="name"
-      [(ngModel)]="nombre_cliente"
-      [errorText]="'Maximo 50 caracteres'"
-      ></ion-input>
+      <div *ngIf="!ingresando_acompaniante">
+        <ion-input
+        class="input_entrada"
+        name="nombre" 
+        label="Nombre Cliente (opcional)" 
+        label-placement="floating" 
+        fill="solid" 
+        [maxlength]="50"
+        [counter]="true"
+        placeholder="Ingrese nombre del cliente"
+        type="name"
+        [(ngModel)]="nombre_cliente"
+        [errorText]="'Maximo 50 caracteres'"
+        ></ion-input>
 
-      <ion-input
-      class="input_entrada"
-      name="apellido" 
-      label="Apellido Cliente (opcional)" 
-      label-placement="floating" 
-      fill="solid" 
-      [maxlength]="50"
-      [counter]="true"
-      placeholder="Ingrese apellido del cliente"
-      type="name"
-      [(ngModel)]="apellido_cliente"
-      [errorText]="'Maximo 50 caracteres'"
-      ></ion-input>
+        <ion-input
+        class="input_entrada"
+        name="apellido" 
+        label="Apellido Cliente (opcional)" 
+        label-placement="floating" 
+        fill="solid" 
+        [maxlength]="50"
+        [counter]="true"
+        placeholder="Ingrese apellido del cliente"
+        type="name"
+        [(ngModel)]="apellido_cliente"
+        [errorText]="'Maximo 50 caracteres'"
+        ></ion-input>
 
-      <ion-input
-      class="input_entrada"
-      name="dni" 
-      label="Dni del CLiente (opcional)" 
-      label-placement="floating" 
-      fill="solid" 
-      [counter]="true"
-      placeholder="Ingrese dni del cliente"
-      type="number"
-      [(ngModel)]="dni_cliente"
-      [errorText]="'Coloque un dni valido'"
-      [maxlength]="8"
-      [max]="99999999"
-      ></ion-input>
+        <ion-input
+        class="input_entrada"
+        name="dni" 
+        label="Dni del CLiente (opcional)" 
+        label-placement="floating" 
+        fill="solid" 
+        [counter]="true"
+        placeholder="Ingrese dni del cliente"
+        type="number"
+        [(ngModel)]="dni_cliente"
+        [errorText]="'Coloque un dni valido'"
+        [maxlength]="8"
+        [max]="99999999"
+        ></ion-input>
+      </div>
+
+      <div class="div-acompaniante" *ngIf="ingresando_acompaniante">
+
+        <h3 style="font-weight: bold; color:#A28BF7 ;">Ingrese {{entradas_ingresadas+1}}° Entrada</h3>
+        <h5 style="font-weight: bold; color:#6c5ca7 ;">Ingresadas {{entradas_ingresadas}}/{{plantilla_selecionada.cantidad_entradas}}</h5>
+        <ion-input
+        class="input_entrada_acompaniante"
+        name="nombre" 
+        label="Nombre Cliente (opcional)" 
+        label-placement="floating" 
+        fill="solid" 
+        [maxlength]="50"
+        [counter]="true"
+        placeholder="Ingrese nombre del cliente"
+        type="name"
+        [(ngModel)]="nombre_cliente"
+        [errorText]="'Maximo 50 caracteres'"
+        ></ion-input>
+  
+        <ion-input
+        class="input_entrada_acompaniante"
+        name="apellido" 
+        label="Apellido Cliente (opcional)" 
+        label-placement="floating" 
+        fill="solid" 
+        [maxlength]="50"
+        [counter]="true"
+        placeholder="Ingrese apellido del cliente"
+        type="name"
+        [(ngModel)]="apellido_cliente"
+        [errorText]="'Maximo 50 caracteres'"
+        ></ion-input>
+  
+        <ion-input
+        class="input_entrada_acompaniante"
+        name="dni" 
+        label="Dni del CLiente (opcional)" 
+        label-placement="floating" 
+        fill="solid" 
+        [counter]="true"
+        placeholder="Ingrese dni del cliente"
+        type="number"
+        [(ngModel)]="dni_cliente"
+        [errorText]="'Coloque un dni valido'"
+        [maxlength]="8"
+        [max]="99999999"
+        style="margin-bottom: 1rem;"
+        ></ion-input>
+      </div>
+
     </div>
     <!-- DATOS OBLIGATORIOS-->
     <div *ngIf="!plantilla_selecionada.en_puerta">
-      <ion-input
-      class="input_entrada"
-      name="nombre" 
-      label="Nombre Cliente" 
-      label-placement="floating" 
-      fill="solid" 
-      [minlength]="2"
-      [maxlength]="50"
-      [counter]="true"
-      placeholder="Ingrese nombre del cliente"
-      type="name"
-      required="true"
-      [(ngModel)]="nombre_cliente"
-      [errorText]="'Coloque un nombre entre 2 a 50 caracteres'"
-      ></ion-input>
+      <div *ngIf="!ingresando_acompaniante">
+        <ion-input
+        class="input_entrada"
+        name="nombre" 
+        label="Nombre Cliente" 
+        label-placement="floating" 
+        fill="solid" 
+        [minlength]="2"
+        [maxlength]="50"
+        [counter]="true"
+        placeholder="Ingrese nombre del cliente"
+        type="name"
+        required="true"
+        [(ngModel)]="nombre_cliente"
+        [errorText]="'Coloque un nombre entre 2 a 50 caracteres'"
+        ></ion-input>
 
-      <ion-input
-      class="input_entrada"
-      name="apellido" 
-      label="Apellido Cliente" 
-      label-placement="floating" 
-      fill="solid" 
-      [minlength]="2"
-      [maxlength]="50"
-      [counter]="true"
-      placeholder="Ingrese apellido del cliente"
-      type="name"
-      required="true"
-      [(ngModel)]="apellido_cliente"
-      [errorText]="'Coloque un apellido entre 2 a 50 caracteres'"
-      ></ion-input>
+        <ion-input
+        class="input_entrada"
+        name="apellido" 
+        label="Apellido Cliente" 
+        label-placement="floating" 
+        fill="solid" 
+        [minlength]="2"
+        [maxlength]="50"
+        [counter]="true"
+        placeholder="Ingrese apellido del cliente"
+        type="name"
+        required="true"
+        [(ngModel)]="apellido_cliente"
+        [errorText]="'Coloque un apellido entre 2 a 50 caracteres'"
+        ></ion-input>
 
-      <ion-input
-      class="input_entrada"
-      name="dni" 
-      label="Dni del CLiente" 
-      label-placement="floating" 
-      fill="solid" 
-      [counter]="true"
-      placeholder="Ingrese dni del cliente"
-      type="number"
-      required="true"
-      [(ngModel)]="dni_cliente"
-      [errorText]="'Coloque un dni valido'"
-      [minlength]="7"
-      [maxlength]="8"
-      [min]="1000000"
-      [max]="99999999"
-      ></ion-input>
+        <ion-input
+        class="input_entrada"
+        name="dni" 
+        label="Dni del CLiente" 
+        label-placement="floating" 
+        fill="solid" 
+        [counter]="true"
+        placeholder="Ingrese dni del cliente"
+        type="number"
+        required="true"
+        [(ngModel)]="dni_cliente"
+        [errorText]="'Coloque un dni valido'"
+        [minlength]="7"
+        [maxlength]="8"
+        [min]="1000000"
+        [max]="99999999"
+        ></ion-input>
+      </div>
+      <div class="div-acompaniante" *ngIf="ingresando_acompaniante">
+  
+        <h3 style="font-weight: bold; color:#A28BF7 ;">Ingrese {{entradas_ingresadas+1}}° Entrada</h3>
+        <h5 style="font-weight: bold; color:#6c5ca7 ;">Ingresadas {{entradas_ingresadas}}/{{plantilla_selecionada.cantidad_entradas}}</h5>
+        <ion-input
+        class="input_entrada_acompaniante"
+        name="nombre" 
+        label="Nombre Cliente" 
+        label-placement="floating" 
+        fill="solid" 
+        [minlength]="2"
+        [maxlength]="50"
+        [counter]="true"
+        placeholder="Ingrese nombre del cliente"
+        type="name"
+        required="true"
+        [(ngModel)]="nombre_cliente"
+        [errorText]="'Coloque un nombre entre 2 a 50 caracteres'"
+        ></ion-input>
+  
+        <ion-input
+        class="input_entrada_acompaniante"
+        name="apellido" 
+        label="Apellido Cliente" 
+        label-placement="floating" 
+        fill="solid" 
+        [minlength]="2"
+        [maxlength]="50"
+        [counter]="true"
+        placeholder="Ingrese apellido del cliente"
+        type="name"
+        required="true"
+        [(ngModel)]="apellido_cliente"
+        [errorText]="'Coloque un apellido entre 2 a 50 caracteres'"
+        ></ion-input>
+  
+        <ion-input
+        class="input_entrada_acompaniante"
+        name="dni" 
+        label="Dni del CLiente" 
+        label-placement="floating" 
+        fill="solid" 
+        [counter]="true"
+        placeholder="Ingrese dni del cliente"
+        type="number"
+        required="true"
+        [(ngModel)]="dni_cliente"
+        [errorText]="'Coloque un dni valido'"
+        [minlength]="7"
+        [maxlength]="8"
+        [min]="1000000"
+        [max]="99999999"
+        style="margin-bottom: 1rem;"
+        ></ion-input>
+      </div>
     </div>
+
     
 
     <br>

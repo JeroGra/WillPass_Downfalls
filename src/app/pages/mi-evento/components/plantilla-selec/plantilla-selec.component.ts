@@ -15,11 +15,15 @@ export class PlantillaSelecComponent  {
   @Input() usuario : Usuario = new Usuario
   @Output() Deseleccionar_Plantilla = new EventEmitter<void>();
   @Output() SubirNuevaEntrada = new EventEmitter<Entrada>();
+  @Output() SubirNuevaEntradasMultiples = new EventEmitter<Array<Entrada>>();
   @Output() EliminarPlantilla = new EventEmitter<Plantilla_Entrada>();
   
   nombre_cliente = "";
   apellido_cliente = "";
   dni_cliente: any;
+  ingresando_acompaniante = false
+  entradas_ingresadas = 0
+  arr_entradas_multiples = new Array<Entrada>
 
   constructor(private toastController : ToastController) { }
 
@@ -74,21 +78,52 @@ export class PlantillaSelecComponent  {
   }
 
   CrearSubirEntrada(){
-    let entrada = new Entrada()
-    entrada.uid_evento = this.plantilla_selecionada.uid_evento
-    entrada.uid_plantilla = this.plantilla_selecionada.uid
-    entrada.nombre_cliente = this.nombre_cliente
-    entrada.apellido_cliente = this.apellido_cliente
-    entrada.dni = this.dni_cliente
-    entrada.tipo_plantilla = this.plantilla_selecionada.nombre_entrada
-    entrada.vip = this.plantilla_selecionada.vip
-    entrada.en_puerta = this.plantilla_selecionada.en_puerta
-    entrada.valor = this.plantilla_selecionada.valor
-    entrada.cantidad_entradas = this.plantilla_selecionada.cantidad_entradas
-    entrada.fecha_venta = this.getCurrentDate()
-    // Agrega la entrada y suma +1 en entradas vendidas de la plantilla seleccionada
-    this.SubirNuevaEntrada.emit(entrada)
-    this.BorrarCampos()
+    if(this.plantilla_selecionada.cantidad_entradas > 1){
+      let entrada = new Entrada()
+      entrada.uid_evento = this.plantilla_selecionada.uid_evento
+      entrada.uid_plantilla = this.plantilla_selecionada.uid
+      entrada.nombre_cliente = this.nombre_cliente
+      entrada.apellido_cliente = this.apellido_cliente
+      entrada.dni = this.dni_cliente
+      entrada.tipo_plantilla = this.plantilla_selecionada.nombre_entrada
+      entrada.vip = this.plantilla_selecionada.vip
+      entrada.en_puerta = this.plantilla_selecionada.en_puerta
+      if(this.entradas_ingresadas == 0){ entrada.valor = this.plantilla_selecionada.valor } else { entrada.valor = 0 }
+      entrada.cantidad_entradas = 1
+      entrada.fecha_venta = this.getCurrentDate()
+
+      this.arr_entradas_multiples.push(entrada)
+      this.entradas_ingresadas += 1
+      // Agrega la entrada y suma +1 en entradas vendidas de la plantilla seleccionada
+      if(this.entradas_ingresadas == this.plantilla_selecionada.cantidad_entradas){
+        //Se suben las entardas a la vez en la DB
+        this.SubirNuevaEntradasMultiples.emit(this.arr_entradas_multiples)
+        this.entradas_ingresadas = 0
+        this.ingresando_acompaniante = false
+        this.arr_entradas_multiples = []
+        this.BorrarCampos()
+      } else {
+        this.ingresando_acompaniante = true
+        this.BorrarCampos()
+      }
+
+    } else {
+      let entrada = new Entrada()
+      entrada.uid_evento = this.plantilla_selecionada.uid_evento
+      entrada.uid_plantilla = this.plantilla_selecionada.uid
+      entrada.nombre_cliente = this.nombre_cliente
+      entrada.apellido_cliente = this.apellido_cliente
+      entrada.dni = this.dni_cliente
+      entrada.tipo_plantilla = this.plantilla_selecionada.nombre_entrada
+      entrada.vip = this.plantilla_selecionada.vip
+      entrada.en_puerta = this.plantilla_selecionada.en_puerta
+      entrada.valor = this.plantilla_selecionada.valor
+      entrada.cantidad_entradas = 1
+      entrada.fecha_venta = this.getCurrentDate()
+      // Agrega la entrada y suma +1 en entradas vendidas de la plantilla seleccionada
+      this.SubirNuevaEntrada.emit(entrada)
+      this.BorrarCampos()
+    }
   }
 
   BorrarCampos(){

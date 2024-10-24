@@ -165,7 +165,7 @@
       <!-- ////////////////////////////////// Se Acede a Plantilla de Entrada ////////////////////////////////////////////////////// -->
       <div *ngIf="plantilla_select">
         
-        <app-plantilla-selec [plantilla_selecionada]="plantilla_selecionada" [usuario]="usuario" (Deseleccionar_Plantilla)="DeselctPlantillaEntrada()" (SubirNuevaEntrada)="SubirEntrada($event)" (EliminarPlantilla)="EliminarPlantilla($event)"></app-plantilla-selec>
+        <app-plantilla-selec [plantilla_selecionada]="plantilla_selecionada" [usuario]="usuario" (Deseleccionar_Plantilla)="DeselctPlantillaEntrada()" (SubirNuevaEntrada)="SubirEntrada($event)" (SubirNuevaEntradasMultiples)="SubirEntradasMultiples($event)" (EliminarPlantilla)="EliminarPlantilla($event)"></app-plantilla-selec>
 
       </div>
       <!-- ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
@@ -208,7 +208,6 @@
           <label style=" margin-top: 5%; font-weight: bolder;color: #48cc36; font-size: xx-large;">{{entrada_validada.tipo_plantilla}}</label>
           <br>
           <div style="background-color: #48cc36;border-radius: 10%;height: 20rem;padding-top: 2.5rem;"><img  style="width: 15rem; height: 15rem;" src="../../../assets/imagenes/check2.svg"></div>
-          <label style="margin-top: 2rem;font-weight: bolder;color: #48cc36; font-size: x-large;" >Entradas = {{entrada_validada.cantidad_entradas}}</label>
           <label style="margin-top: 2rem;font-weight: bolder;color: #48cc36; font-size: x-large;" >{{entrada_validada.nombre_cliente}} {{entrada_validada.apellido_cliente}}</label>
           <br>
           <label style="margin-top: 2rem;font-weight: bolder;color: #48cc36; font-size: x-large;">DNI : {{entrada_validada.dni}}</label>
@@ -242,7 +241,7 @@
         <ion-card class="card_estadisticas" >
         
           <ion-card-content style=" color: #A28BF7;">
-            <h1>Ventas Totales: {{entradas_totales}}</h1>
+            <h1>Entradas Totales: {{entradas_totales}}</h1>
             <h1>Total Generado: ${{total_generado}}</h1>
             <h1 *ngIf="entradas_vip > 0">Entradas Vip: {{entradas_vip}}/{{entradas_totales}}</h1>
             <h1 *ngIf="entradas_en_puerta > 0">Entradas Puerta: {{entradas_en_puerta}}/{{entradas_totales}}</h1>
@@ -266,8 +265,8 @@
         </div>
         <div class="card card-grafico card-ventas">
           <div class="card-body">
-            <h5 class="card-title" style="font-weight: bolder;">Ventas</h5>
-            <h6 class="card-subtitle mb-2" style="font-weight: bold;">Cantidad de ventas por fecha</h6>
+            <h5 class="card-title" style="font-weight: bolder;">Entradas Anotadas</h5>
+            <h6 class="card-subtitle mb-2" style="font-weight: bold;">Cantidad de Entradas Anotadas por fecha</h6>
             <div id="chartAtencion">
             <apx-chart 
               [series]="chartOptionsVentasFecha!.series!"
