@@ -62,7 +62,7 @@
              <div *ngIf="eventos.length > 0">
                <div *ngFor="let evento of eventos"  class="col-md-auto">
          
-                 <ion-card class="card_eventos" >
+                 <ion-card class="card_eventos" *ngIf="!FechaPasadaEvento(evento.fecha)" >
                   <div (click)="SelecEvento(evento)">
                     <ion-card-header>
                       <ion-card-title style="font-weight: bold; font-size: 1.5rem; color: #F87983;"> {{evento.nombre}}</ion-card-title>
@@ -70,11 +70,23 @@
                     </ion-card-header>
                   
                     <ion-card-content >
-   
                       {{timeUntilFutureDate(evento.fecha)}}
                     </ion-card-content>
                   </div>
                   <ion-button *ngIf="usuario.admin" fill="outline" id="btn_editar" (click)="ModificarEventoSelect(evento)"><img width="20" src="../../../assets/imagenes/pen.svg" ></ion-button>
+                 </ion-card>
+
+                 <ion-card class="card_eventos_pasados" *ngIf="FechaPasadaEvento(evento.fecha)" >
+                  <div (click)="SelecEvento(evento)">
+                    <ion-card-header>
+                      <ion-card-title style="font-weight: bold; font-size: 1.5rem; color: #aa2d37;"> {{evento.nombre}}</ion-card-title>
+                      <ion-card-subtitle style="font-weight: bold; font-size: medium; color:#96232c;">{{evento.fecha}} a las {{evento.hora}}hs</ion-card-subtitle>
+                    </ion-card-header>
+                  
+                    <ion-card-content style="font-weight: bold; font-size: 1rem; color: #96232c;">
+                      EVENTO FINALIZADO
+                    </ion-card-content>
+                  </div>
                   <ion-button *ngIf="FechaPasadaEvento(evento.fecha) && usuario.admin" fill="outline" id="btn_eliminar" (click)="EliminarEventoSelect(evento)"><img width="20" src="../../../assets/imagenes/trash.svg" ></ion-button>
                  </ion-card>
                 
@@ -86,6 +98,16 @@
             <div class="col-md-auto">
       
               <ion-button *ngIf="usuario.admin" id="btn_crear_evento" fill="outline" (click)="CrearEvento()"> <img  src="../../../assets/imagenes/plus-lg.svg">   </ion-button>
+      
+            </div>
+            <div class="col-md-auto">
+      
+              <ion-button *ngIf="usuario.admin" id="btn_consejo_evento" fill="outline">
+                <li style="list-style: none;">
+                  <ul>Se recomienda eliminar eventos de 3 o más meses, para liberar espacio.</ul>
+                  <ul>Las estadísticas de los eventos eliminados se conservan.</ul>
+                </li>
+              </ion-button>
       
             </div>
     

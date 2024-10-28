@@ -8,6 +8,16 @@
     --color:#F87983;
 }
 
+#btn_consejo_evento{
+    width: 95%;
+    height: 8rem;
+    margin-top: 0.5rem;
+    box-shadow: 0px 26px 63px -8px rgba(0,0,0,0.67);
+    --border-color:#4d4d4d;
+    --color:#4d4d4d;
+    --border-style:dotted;
+}
+
 .card_eventos {
     width: 95%;
     height: 11rem;
@@ -15,6 +25,16 @@
     box-shadow: 0px 26px 63px -8px rgba(0,0,0,0.67);
     background-color: #292929;
     color: #f87984bb;
+}
+
+.card_eventos_pasados{
+    width: 95%;
+    height: 11rem;
+    margin-top: 0.5rem;
+    box-shadow: 0px 26px 63px -8px rgba(0,0,0,0.67);
+    background-color: #292929;
+    color: #f87984bb;
+    border: solid 0.1rem #96232c;
 }
 
 .card_evento_eliminar{
@@ -62,7 +82,7 @@
 
 #btn_eliminar{
     --border-color:transparent;
-    float: left;
+    float: right;
     margin-bottom: 0.5rem;
     margin-right:0.5rem ;
 }
