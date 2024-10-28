@@ -21,6 +21,7 @@ export class HomePage implements OnDestroy {
   usuario : Usuario = new Usuario
   modificando_evento = false
   evento_select = new Evento
+  eliminar_evento = false
 
   fecha_evento : any
   hora_evento : any
@@ -167,6 +168,7 @@ export class HomePage implements OnDestroy {
     this.fecha_evento = undefined
     this.hora_evento = undefined
     this.modificando_evento = false
+    this.eliminar_evento = false
     this.evento_select = new Evento
     this.info_evento_select = new Informacion_Evento
   }
@@ -198,6 +200,33 @@ export class HomePage implements OnDestroy {
       this.info_evento_select = info_evento
     })
   }
+
+  EliminarEventoSelect(evento : Evento){
+    //this.db.EliminarEvento(evento.uid)
+    this.evento_select = evento
+    this.eliminar_evento = true
+  }
+
+  EliminarEvento(){
+    let ok = this.db.EliminarEvento(this.evento_select.uid)
+    if(ok){ this.presentToast("top","Evento Eliminado","success") } else { this.presentToast("top","No se pudo Eliminar. Error Con la Conexion","danger") }
+    this.Volver()
+  }
+
+  FechaPasadaEvento(fecha : string) : boolean {
+
+    const fechaEvento = new Date(fecha);
+    const fechaHoy = new Date();
+
+    fechaHoy.setHours(0, 0, 0, 0);
+    fechaEvento.setHours(0, 0, 0, 0);
+
+    const diferenciaEnMilisegundos = fechaEvento.getTime() - fechaHoy.getTime();
+    const diferenciaEnDias = Math.round(diferenciaEnMilisegundos / (1000 * 60 * 60 * 24));
+    
+    return diferenciaEnDias <= -7
+  
+  } 
 
   ModificarEvento(){
 

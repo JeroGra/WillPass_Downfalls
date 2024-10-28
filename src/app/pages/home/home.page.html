@@ -37,10 +37,10 @@
 <div class="ion-page" id="main-content">
   <ion-header >
     <ion-toolbar>
-      <ion-button *ngIf="!creando_evento && !modificando_evento" id="btn_volver" fill="outline" size="medium" (click)="Login()"><img src="../../../assets/imagenes/arrow-bar-left.svg"></ion-button>
-      <ion-title *ngIf="!creando_evento  && !modificando_evento" style="text-align: center; color: #F87983; font-size: 1.5rem; font-weight: bolder; margin-top: 0.5rem;">Mis Eventos</ion-title>
-      <ion-title *ngIf="creando_evento || modificando_evento" style="text-align: center; color: #F87983; font-size: 1.5rem; font-weight: bolder;text-align: center; margin-top: 0.5rem;">Mis Eventos</ion-title>
-      <ion-buttons *ngIf="!creando_evento && !modificando_evento" slot="end" style="color: #F87983;">
+      <ion-button *ngIf="!creando_evento && !modificando_evento && !eliminar_evento" id="btn_volver" fill="outline" size="medium" (click)="Login()"><img src="../../../assets/imagenes/arrow-bar-left.svg"></ion-button>
+      <ion-title *ngIf="!creando_evento  && !modificando_evento && !eliminar_evento" style="text-align: center; color: #F87983; font-size: 1.5rem; font-weight: bolder; margin-top: 0.5rem;">Mis Eventos</ion-title>
+      <ion-title *ngIf="creando_evento || modificando_evento || eliminar_evento" style="text-align: center; color: #F87983; font-size: 1.5rem; font-weight: bolder;text-align: center; margin-top: 0.5rem;">Mis Eventos</ion-title>
+      <ion-buttons *ngIf="!creando_evento && !modificando_evento && !eliminar_evento" slot="end" style="color: #F87983;">
         <ion-menu-button ></ion-menu-button>
       </ion-buttons>    
     </ion-toolbar>
@@ -56,7 +56,7 @@
         <div class="row justify-content-md-center row-cosl-1"> 
     
           <!-- Valida que no se este creando un evento-->
-          <div *ngIf="!creando_evento && !modificando_evento">
+          <div *ngIf="!creando_evento && !modificando_evento && !eliminar_evento">
     
             <!-- Card (si hay evento) -->
              <div *ngIf="eventos.length > 0">
@@ -74,7 +74,8 @@
                       {{timeUntilFutureDate(evento.fecha)}}
                     </ion-card-content>
                   </div>
-                  <ion-button fill="outline" id="btn_editar" (click)="ModificarEventoSelect(evento)"><img width="20" src="../../../assets/imagenes/pen.svg" ></ion-button>
+                  <ion-button *ngIf="usuario.admin" fill="outline" id="btn_editar" (click)="ModificarEventoSelect(evento)"><img width="20" src="../../../assets/imagenes/pen.svg" ></ion-button>
+                  <ion-button *ngIf="FechaPasadaEvento(evento.fecha) && usuario.admin" fill="outline" id="btn_eliminar" (click)="EliminarEventoSelect(evento)"><img width="20" src="../../../assets/imagenes/trash.svg" ></ion-button>
                  </ion-card>
                 
          
@@ -199,7 +200,29 @@
             </div>
   
            </div>
-            
+
+           <!-- Se Elimina Evento -->
+           
+           <div *ngIf="eliminar_evento">
+         
+            <ion-card class="card_evento_eliminar" >
+               <ion-card-header>
+                 <ion-card-title style="font-weight: bold; font-size: 1.5rem; color: #F87983;"> {{evento_select.nombre}}</ion-card-title>
+                 <ion-card-subtitle style="font-weight: bold; font-size: medium; color:#f87984bb;">{{evento_select.fecha}} a las {{evento_select.hora}}hs</ion-card-subtitle>
+               </ion-card-header>
+             
+               <ion-card-content >
+                Este evento se eliminará junto a todas sus entradas, la información básica del evento no se perderá.
+               </ion-card-content>
+               
+               <ion-button (click)="EliminarEvento()"  fill="outline" style="--border-color:  #ee3444; --color:#ee3444; width: 10rem; height: 3rem;"  >Eliminar</ion-button>
+               <ion-button (click)="Volver()" fill="outline" style="--border-color:  #A28BF7; --color:#A28BF7; width: 10rem; height: 3rem;"   >Cancelar</ion-button>
+       
+            </ion-card>
+           
+    
+          </div>
+
         </div>
       </div>
   </ion-content>

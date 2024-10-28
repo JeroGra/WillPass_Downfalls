@@ -17,6 +17,15 @@
     color: #f87984bb;
 }
 
+.card_evento_eliminar{
+    width: 95%;
+    height: 13rem;
+    margin-top: 0.5rem;
+    box-shadow: 0px 26px 63px -8px rgba(0,0,0,0.67);
+    background-color: #292929;
+    color: #f87984bb;
+}
+
 #col_creacion_evento{
     padding: 1.5rem;
 }
@@ -47,6 +56,13 @@
 #btn_editar{
     --border-color:transparent;
     float: right;
+    margin-bottom: 0.5rem;
+    margin-right:0.5rem ;
+}
+
+#btn_eliminar{
+    --border-color:transparent;
+    float: left;
     margin-bottom: 0.5rem;
     margin-right:0.5rem ;
 }

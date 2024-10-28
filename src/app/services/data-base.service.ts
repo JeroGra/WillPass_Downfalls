@@ -441,4 +441,49 @@ export class DataBaseService {
   }
 
   //#endregion
+
+  //#region  ELIMINAR EVENTOS CON SUS PLANTILLAS Y ENTRADAS
+
+   EliminarEvento(uid_evento : string){
+    this.EliminarEntradas(uid_evento)
+    this.EliminarPlantillas(uid_evento)
+    let ok = true
+    const coleccion = collection(this.firestore,`eventos`)
+    const documento = doc(coleccion,uid_evento);
+    let rt = deleteDoc(documento).then((val) =>{
+      console.log(val)
+    }).catch((err) => {
+      console.log(err)
+      ok = false
+    });;
+
+    return ok
+  }
+
+  async EliminarEntradas(uid_evento : string){
+    let uid_entradas : Array<Entrada> = []
+    const coleccion = collection(this.firestore,`${uid_evento}_entradas`)
+
+    this.ObtenerEntradasObservable(uid_evento).subscribe((entradas : any) => {
+      uid_entradas = entradas as Array<Entrada>
+      uid_entradas.forEach((entr : Entrada) => {
+        const documento = doc(coleccion,entr.uid)
+        deleteDoc(documento);
+      });
+    }).unsubscribe
+  }
+
+  async EliminarPlantillas(uid_evento : string){
+    let uid_plantillas : Array<Plantilla_Entrada> = []
+    const coleccion = collection(this.firestore,`${uid_evento}_plantillas`)
+    this.ObtenerPlantillasEventoObservable(uid_evento).subscribe((plantillas : any) => {
+      uid_plantillas = plantillas as Array<Plantilla_Entrada>
+      uid_plantillas.forEach((plantilla : Plantilla_Entrada) => {
+        const documento = doc(coleccion,plantilla.uid)
+        deleteDoc(documento);
+      });
+    }).unsubscribe
+  }
+
+  //#endregion
 }
